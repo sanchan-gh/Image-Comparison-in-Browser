@@ -584,66 +584,29 @@ function handleUrl(url, div, image) {
 
 // Download Sankakucomplex post page
 function getSankakuPost(id, onComplete, onError) {
-	var link = 'https://chan.sankakucomplex.com/post/show/' + id + ' #content';
+	jQuery.ajax({
+		url: 'https://capi-v2.sankakucomplex.com/posts?lang=en&page=1&limit=1&tags=id_range:' + id,
+		dataType: 'json',
+		success: (data) => {
+			data = data[0]; // data from the 1 returned post
 
-	var div_temp = jQuery('<div />');
-	try {
-		div_temp.load(link, function (resp, status) {
-			if (status !== 'error') {
-				var post = {
-					'id': id
-				};
+console.debug(data);
 
-				// Load plays the video in background out of the variable cyberspace and you can do nothing about it?!
-				div_temp.find('video').remove();
+			const post = { id };
 
-				// Parse stats:
-				var a = div_temp.find('#highres');
-				post.src = a.attr('href');
-				post.bytes = a.attr('title');
-				var r = /Original: (\d+)x(\d+) \(.+\)/.exec(a.parent().text());
-				post.width = parseInt(r[1]);
-				post.height = parseInt(r[2]);
-				r = /.+\.(.+)\?\d+$/.exec(post.src);
-				post.type = r[1].toLowerCase();
+			post.src = data.file_url;
+			post.bytes = data.file_size;
+			post.width = data.width;
+			post.height = data.height;
+			post.type = data.file_type.split('/')[1];
+			post.details = `Post #${post.id}<br>Filetype: ${post.type}<br>Filesize: ${post.bytes}`;
 
-				// Load stats
-				post.details = 'Post #' + post.id + '<br>' +
-					clean(div_temp.find('#stats').text() +
-						'Filetype: ' + post.type + '<br>' +
-						'Filesize: ' + post.bytes);
-
-				if (onComplete) {
-					onComplete(post);
-				}
-			} else {
-				console.log(resp, status)
-				if (onError) {
-					onError();
-				}
+			if (onComplete) {
+				onComplete(post);
 			}
-
-			// Make the messy details look pretty
-			function clean(text) {
-				// Trim every line, get rid of empty lines and join everything
-				var lines = text.split('\n');
-				var lines_new = [];
-				for (var i = 0; i < lines.length; i++) {
-					text = lines[i].trim();
-					if ((text !== '') && (text !== 'Details')) {
-						lines_new.push(text);
-					}
-				}
-				text = lines_new.join('<br>');
-				return text;
-			};
-		});
-	} catch (err) {
-		console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', err);
-		if (onError) {
-			onError();
-		}
-	}
+		},
+		error: onError,
+	});
 }
 
 // Download image if a URL has been dropped into the block
@@ -869,7 +832,7 @@ function handleFile(div, image) {
 							image.dataUrl = dataUrl;
 							compareImages();
 						});
-						
+
 						// Metadata from PNG
 						if(image.file.type === 'image/png'){
 							// Textinformation
@@ -1135,20 +1098,20 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 	metadata.details = {};
 	metadata.text = {};
 	metadata.details.data_size = 0;
-	
+
 	// Convert dataUrl to a binary array
 	dataUrl = dataUrl.substr('data:image/png;base64,'.length);
 	var binary = atob(dataUrl);
 	var len = binary.length;
-	
+
 	// Chunk header info
 	var n_chunkLength;
 	var s_chunkType;
 	var n_chunkCRC;
-	
+
 	// For all bytes (skip first 8 which are PNG signature)
 	for (var i = 8; i < len; i++) {
-		
+
 		// Chunk header and trailer
 		n_chunkLength = binaryToInt(i, 4);
 		s_chunkType = binaryToChunkname(i + 4, 4);
@@ -1156,10 +1119,10 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 		if(s_chunkType !== 'IDAT'){
 			console.log(n_chunkLength, s_chunkType, n_chunkCRC);
 		}
-		
+
 		// Jump to chunk data
 		i += 8;
-		
+
 		// Handle chunk data
 		switch(s_chunkType){
 			// Handle PNG header
@@ -1171,7 +1134,7 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 				metadata.details.compression_method = binaryToInt(i + 10, 1);
 				metadata.details.filter_method = binaryToInt(i + 11, 1);
 				metadata.details.interlace_method = binaryToInt(i + 12, 1);
-				
+
 				// Make the IHDR humanly readable
 				metadata.details.bitdepth = metadata.details.bitdepth + ' bits/sample'
 				switch(metadata.details.color_type){
@@ -1203,12 +1166,12 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 			case 'PLTE':
 				metadata.text.chunk_PLTE = n_chunkLength + ' byte';
 				break;
-				
+
 			// Handle data
 			case 'IDAT':
 				metadata.details.data_size += n_chunkLength;
 				break;
-			
+
 			// Handle text information
 			case 'tEXt':
 				array_text = binaryToString(i, n_chunkLength).split('\0');
@@ -1222,9 +1185,9 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 				array_text = binaryToString(i, n_chunkLength).split('\0');
 				metadata.text[array_text[0]] = 'icompressed ' + n_chunkLength + ' byte text';
 				break;
-			
+
 			// Handle miscellaneous information
-			
+
 			case 'cHRM':
 				metadata.text.chunk_cHRM = n_chunkLength + ' byte';
 				break;
@@ -1270,13 +1233,13 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 				metadata.text.chunk_tIME = n_chunkLength + ' byte';
 				break;
 		}
-		
+
 		// Jump to next chunk
 		i += n_chunkLength + 4 - 1;
 	}
-	
+
 	metadata.details.data_size += ' byte';
-	
+
 	return metadata;
 
 	function binaryToInt(i, len) {
@@ -1296,11 +1259,11 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 
 		return value;
 	}
-	
+
 	function binaryToChunkname(i){
 		return binary[i] + binary[i+1] + binary[i+2] + binary[i+3];
 	}
-	
+
 	function binaryToString(i, len){
 		if(len === undefined){
 			len = 4;

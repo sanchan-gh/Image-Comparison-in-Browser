@@ -584,19 +584,19 @@ function getSankakuPost(id, onComplete, onError) {
 		url: 'https://capi-v2.sankakucomplex.com/posts?lang=en&page=1&limit=1&tags=id_range:' + id,
 		dataType: 'json',
 		success: (data) => {
-			data = data[0]; // data from the 1 returned post
+			const postdata = data[0];
 
-console.debug(data);
+console.debug(postdata);
 
 			const post = {
 				id,
-				src: data.file_url,
-				bytes: data.file_size,
-				width: data.width,
-				height: data.height,
-				type: data.file_type.split('/')[1],
-				details: `Post #${post.id}<br>Filetype: ${post.type}<br>Filesize: ${post.bytes}`,
+				src: postdata.file_url,
+				bytes: postdata.file_size,
+				width: postdata.width,
+				height: postdata.height,
+				type: postdata.file_type.split('/')[1],
 			};
+			post.details = `Post #${post.id}<br>Filetype: ${post.type}<br>Filesize: ${post.bytes}`;
 
 			onComplete(post);
 		},

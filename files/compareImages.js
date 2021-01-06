@@ -1,7 +1,8 @@
-//(function () {
+(function () {
+'use strict'; // TODO
 
 // Global variables
-var image1 = {
+const image1 = {
 	dom: null, // dom-object
 	j: null, // jQuery-object
 	width: 1, // width of the image
@@ -12,15 +13,13 @@ var image1 = {
 	src: '', // For drag and drop from another browser
 	type: '', // file type
 };
-var image2 = clone(image1);
-var image3 = clone(image1);
-var resembleConfig = null;
-var play = true;
-var displayDetails = true;
-var displayExif = true;
-var displayPixelated = true;
-
-var temp;
+const image2 = clone(image1);
+const image3 = clone(image1);
+let resembleConfig = null;
+let play = true;
+let displayDetails = true;
+let displayExif = true;
+let displayPixelated = true;
 
 (function main() {
 	// Bind drag and drop
@@ -47,8 +46,8 @@ var temp;
 		}
 	});
 	displayPixelated = jQuery('#pixelated').is(':checked');
-	var pixelatedStyle = 'image-rendering:crisp-edges; image-rendering:-moz-crisp-edges; image-rendering:pixelated; image-rendering: -o-crisp-edges; -ms-interpolation-mode: nearest-neighbor';
-	if(displayPixelated){
+	const pixelatedStyle = 'image-rendering:crisp-edges; image-rendering:-moz-crisp-edges; image-rendering:pixelated; image-rendering: -o-crisp-edges; -ms-interpolation-mode: nearest-neighbor';
+	if (displayPixelated) {
 		jQuery('#content').attr('style', pixelatedStyle);
 	}
 	jQuery('#content').css({'image-rendering': 'crisp-edges'});
@@ -185,92 +184,94 @@ var temp;
 	.bind('dblclick', reset);
 
 	// Pan function
-	var panOn = false;
+	let panOn = false;
+
 	function pan(event) {
 		if (panOn) {
-			var x = event.originalEvent.movementX;
-			var y = event.originalEvent.movementY;
+			const x = event.originalEvent.movementX;
+			const y = event.originalEvent.movementY;
 			if (image1.j !== null) {
 				image1.j.css({
-					'top': (image1.j.position().top + y) + 'px',
-					'left': (image1.j.position().left + x) + 'px',
+					top: (image1.j.position().top + y) + 'px',
+					left: (image1.j.position().left + x) + 'px',
 				});
 			}
 			if (image2.j !== null) {
 				image2.j.css({
-					'top': image2.j.position().top + y + 'px',
-					'left': image2.j.position().left + x + 'px',
+					top: image2.j.position().top + y + 'px',
+					left: image2.j.position().left + x + 'px',
 				});
 			}
 			if (image3.j !== null) {
 				image3.j.css({
-					'top': image3.j.position().top + y + 'px',
-					'left': image3.j.position().left + x + 'px',
+					top: image3.j.position().top + y + 'px',
+					left: image3.j.position().left + x + 'px',
 				});
 			}
-		};
+		}
 	}
-	function panstart(event) {
+	function panstart(e) {
+		e.preventDefault();
 		panOn = true;
-		return false;
 	}
-	function panstop(event) {
+	function panstop(e) {
+		e.preventDefault();
 		panOn = false;
-		return false;
 	}
 
 	// Zoom function
 	function zoom(event) {
 		// Relative scale
-		var s = event.deltaY / 20;
+		const s = event.deltaY / 20;
 
 		// For pan
-		var x_0 = event.offsetX;
-		var y_0 = event.offsetY;
+		const x_0 = event.offsetX;
+		const y_0 = event.offsetY;
 
 		// Zooming along with pan => zooming at hovered point (natural feel)
 		if (image1.j !== null) {
 			image1.j.css({
-				'width': image1.j.width() * (1 + s) + 'px',
-				'height': image1.j.height() * (1 + s) + 'px',
-				'top': y_0 + (1 + s) * (image1.j.position().top - y_0) + 'px',
-				'left': x_0 + (1 + s) * (image1.j.position().left - x_0) + 'px',
+				width: image1.j.width() * (1 + s) + 'px',
+				height: image1.j.height() * (1 + s) + 'px',
+				top: y_0 + (1 + s) * (image1.j.position().top - y_0) + 'px',
+				left: x_0 + (1 + s) * (image1.j.position().left - x_0) + 'px',
 			});
 		}
 		if (image2.j !== null) {
 			image2.j.css({
-				'width': image2.j.width() * (1 + s) + 'px',
-				'height': image2.j.height() * (1 + s) + 'px',
-				'top': y_0 + (1 + s) * (image2.j.position().top - y_0) + 'px',
-				'left': x_0 + (1 + s) * (image2.j.position().left - x_0) + 'px',
+				width: image2.j.width() * (1 + s) + 'px',
+				height: image2.j.height() * (1 + s) + 'px',
+				top: y_0 + (1 + s) * (image2.j.position().top - y_0) + 'px',
+				left: x_0 + (1 + s) * (image2.j.position().left - x_0) + 'px',
 			});
 		}
 		if (image3.j !== null) {
 			image3.j.css({
-				'width': image3.j.width() * (1 + s) + 'px',
-				'height': image3.j.height() * (1 + s) + 'px',
-				'top': y_0 + (1 + s) * (image3.j.position().top - y_0) + 'px',
-				'left': x_0 + (1 + s) * (image3.j.position().left - x_0) + 'px',
+				width: image3.j.width() * (1 + s) + 'px',
+				height: image3.j.height() * (1 + s) + 'px',
+				top: y_0 + (1 + s) * (image3.j.position().top - y_0) + 'px',
+				left: x_0 + (1 + s) * (image3.j.position().left - x_0) + 'px',
 			});
 		}
 
 		updateZoomButton();
 
 		return false;
-	};
+	}
 
 	// Center element on resize
 	jQuery(window).bind('resize', onresize);
-	var old_width = getWidth();
-	var old_height = getHeight();
-	function onresize(event) {
-		var width = getWidth();
-		var height = getHeight();
-		var delta_width = width - old_width;
-		var delta_height = height - old_height;
+	let old_width = getWidth();
+	let old_height = getHeight();
 
-		var x = delta_width / 4.0;
-		var y = delta_height / 4.0;
+	function onresize() {
+		const width = getWidth();
+		const height = getHeight();
+		const delta_width = width - old_width;
+		const delta_height = height - old_height;
+
+		let x = delta_width / 4.0;
+		let y = delta_height / 4.0;
 		if (image3.j !== null) {
 			x = delta_width / 6.0;
 			y = delta_height / 6.0;
@@ -278,20 +279,20 @@ var temp;
 
 		if (image1.j !== null) {
 			image1.j.css({
-				'top': (image1.j.position().top + y) + 'px',
-				'left': (image1.j.position().left + x) + 'px',
+				top: (image1.j.position().top + y) + 'px',
+				left: (image1.j.position().left + x) + 'px',
 			});
 		}
 		if (image2.j !== null) {
 			image2.j.css({
-				'top': image2.j.position().top + y + 'px',
-				'left': image2.j.position().left + x + 'px',
+				top: image2.j.position().top + y + 'px',
+				left: image2.j.position().left + x + 'px',
 			});
 		}
 		if (image3.j !== null) {
 			image3.j.css({
-				'top': image3.j.position().top + y + 'px',
-				'left': image3.j.position().left + x + 'px',
+				top: image3.j.position().top + y + 'px',
+				left: image3.j.position().left + x + 'px',
 			});
 		}
 
@@ -302,13 +303,13 @@ var temp;
 	// Get cross browser window width and height
 	function getWidth() {
 		return (window.innerWidth
-			 || document.documentElement.clientWidth
-			 || document.body.clientWidth);
+			|| document.documentElement.clientWidth
+			|| document.body.clientWidth);
 	}
 	function getHeight() {
 		return (window.innerHeight
-			 || document.documentElement.clientHeight
-			 || document.body.clientHeight);
+			|| document.documentElement.clientHeight
+			|| document.body.clientHeight);
 	}
 
 	// After everything is ready handle current location arguments
@@ -318,7 +319,7 @@ var temp;
 
 // Handle arguments
 function handleArguments(args) {
-	var url;
+	let url;
 	if (args.sid1) {
 		url = parseUrl('https://chan.sankakucomplex.com/post/show/' + args.sid1);
 	} else if (args.url1) {
@@ -341,10 +342,10 @@ function handleArguments(args) {
 
 // Function to clone JS objects
 function clone(obj) {
-	if (null == obj || "object" != typeof obj)
+	if (obj == null || typeof obj !== 'object')
 		return obj;
-	var copy = obj.constructor();
-	for (var attr in obj) {
+	const copy = obj.constructor();
+	for (const attr in obj) {
 		if (obj.hasOwnProperty(attr))
 			copy[attr] = obj[attr];
 	}
@@ -354,59 +355,55 @@ function clone(obj) {
 // Reset image scale and pos
 function reset() {
 	// Parent width, height and ratio (for all images same)
-	var w_p = jQuery('.block').width();
-	var h_p = jQuery('.block').height();
-	var r_p = h_p / w_p;
+	const w_p = jQuery('.block').width();
+	const h_p = jQuery('.block').height();
+	const r_p = h_p / w_p;
 
 	// Ratios of the images
-	var r_1;
+	let r_1;
 	if (image1.j !== null) { // If image has been calculated
 		r_1 = image1.height / image1.width;
-	};
-	var r_2;
+	}
+	let r_2;
 	if (image2.j !== null) { // If image has been calculated
 		r_2 = image2.height / image2.width;
-	};
-	var r_3;
-	if (image3.j !== null) { // If image has been calculated
-		r_3 = image3.height / image3.width;
-	};
+	}
 
 	// If parent is more portrait
 	if (r_p > r_1) {
 		// Maximize width
 		if (r_1) {
 			image1.j.css({
-				'width': w_p,
-				'height': w_p * r_1,
-				'top': 0.5 * (h_p - w_p * r_1),
-				'left': 0
+				width: w_p,
+				height: w_p * r_1,
+				top: 0.5 * (h_p - w_p * r_1),
+				left: 0
 			});
 		}
 		if (r_2) {
 			image2.j.css({
-				'width': w_p,
-				'height': w_p * r_2,
-				'top': 0.5 * (h_p - w_p * r_2),
-				'left': 0
+				width: w_p,
+				height: w_p * r_2,
+				top: 0.5 * (h_p - w_p * r_2),
+				left: 0
 			});
 		}
 	} else {
 		// Maximize height
 		if (r_1) {
 			image1.j.css({
-				'width': h_p / r_1,
-				'height': h_p,
-				'top': 0,
-				'left': 0.5 * (w_p - h_p / r_1)
+				width: h_p / r_1,
+				height: h_p,
+				top: 0,
+				left: 0.5 * (w_p - h_p / r_1)
 			});
 		}
 		if (r_2) {
 			image2.j.css({
-				'width': h_p / r_2,
-				'height': h_p,
-				'top': 0,
-				'left': 0.5 * (w_p - h_p / r_2)
+				width: h_p / r_2,
+				height: h_p,
+				top: 0,
+				left: 0.5 * (w_p - h_p / r_2)
 			});
 		}
 	}
@@ -438,12 +435,11 @@ function reset3() {
 // Reset image to 100% zoom (Same as zoom-function but relative scale is from image instead of mousewheel)
 function reset100(base) {
 	// Parent width, height and ratio (for all images same), for natural zoom around center
-	var w_p = jQuery('.block').width();
-	var h_p = jQuery('.block').height();
-	var r_p = h_p / w_p;
+	const w_p = jQuery('.block').width();
+	const h_p = jQuery('.block').height();
 
 	// Relative scale
-	var s;
+	let s;
 	if (base === 1) {
 		s = image1.width / image1.j.width() - 1;
 	} else {
@@ -451,8 +447,8 @@ function reset100(base) {
 	}
 
 	// For pan
-	var x_0 = w_p / 2;
-	var y_0 = h_p / 2;
+	const x_0 = w_p / 2;
+	const y_0 = h_p / 2;
 
 	// Zooming along with pan => zooming at hovered point (natural feel)
 	if (image1.j !== null) {
@@ -483,7 +479,7 @@ function reset100(base) {
 	updateZoomButton();
 
 	return false;
-};
+}
 
 // Zoom button update to current zoom
 function updateZoomButton() {
@@ -512,7 +508,7 @@ function dragDropDiv(div, image) {
 		return false;
 	})
 	.bind("drop", function (event) {
-		var file = event.originalEvent.dataTransfer.files[0];
+		const file = event.originalEvent.dataTransfer.files[0];
 		console.log(event);
 		if (file) {
 			if (file.size > 100 * 1024 * 1024) {
@@ -524,7 +520,7 @@ function dragDropDiv(div, image) {
 				handleFile(div, image);
 			}
 		} else {
-			var url = parseUrl(event.originalEvent.dataTransfer.getData('Text'));
+			const url = parseUrl(event.originalEvent.dataTransfer.getData('Text'));
 			event.stopPropagation();
 			image.src = url.href;
 			handleUrl(url, div, image);
@@ -532,7 +528,7 @@ function dragDropDiv(div, image) {
 		div.removeClass('drag-over');
 		return false;
 	});
-};
+}
 
 // Handle dropped URL
 function handleUrl(url, div, image) {
@@ -541,7 +537,7 @@ function handleUrl(url, div, image) {
 	 */
 
 	// Find out which site the URL is from
-	var tokens = /^https:\/\/chan\.sankakucomplex\.com\/post\/show\/(\d+)$/.exec(url.href);
+	let tokens = /^https:\/\/chan\.sankakucomplex\.com\/post\/show\/(\d+)$/.exec(url.href);
 	if (tokens) {
 
 		// Remove old content in div
@@ -556,13 +552,13 @@ function handleUrl(url, div, image) {
 			image.src = getAbsolutePath(post.src);
 			downloadImageFromUrl(url, div, image, post);
 		}, function () { // onError
-			div.find('.center').html('Could not load post from Sankakucomplex.<br>\
-				Download the image/video and drop that instead.');
+			div.find('.center').html('Could not load post from Sankakucomplex.<br>'
+				+ 'Download the image/video and drop that instead.');
 		});
 	} else {
 		tokens = /^https:\/\/cs\.sankakucomplex\.com\/.+\.(.+)\?(\d+)$/.exec(url.href);
 		if (tokens) {
-			var post = {
+			const post = {
 				id: tokens[2]
 			};
 			image.type = tokens[1];
@@ -572,7 +568,7 @@ function handleUrl(url, div, image) {
 			image.src = url.href;
 			downloadImageFromUrl(url, div, image);
 		}
-	};
+	}
 
 	function getAbsolutePath(link) {
 		if (!link.startsWith('https:')) {
@@ -592,18 +588,17 @@ function getSankakuPost(id, onComplete, onError) {
 
 console.debug(data);
 
-			const post = { id };
+			const post = {
+				id,
+				src: data.file_url,
+				bytes: data.file_size,
+				width: data.width,
+				height: data.height,
+				type: data.file_type.split('/')[1],
+				details: `Post #${post.id}<br>Filetype: ${post.type}<br>Filesize: ${post.bytes}`,
+			};
 
-			post.src = data.file_url;
-			post.bytes = data.file_size;
-			post.width = data.width;
-			post.height = data.height;
-			post.type = data.file_type.split('/')[1];
-			post.details = `Post #${post.id}<br>Filetype: ${post.type}<br>Filesize: ${post.bytes}`;
-
-			if (onComplete) {
-				onComplete(post);
-			}
+			onComplete(post);
 		},
 		error: onError,
 	});
@@ -634,7 +629,7 @@ function downloadImageFromUrl(url, div, image, post) {
 	}
 
 	// Create image
-	var img;
+	let img;
 	// If post before loaded aka thumbnail dropped, it could be a video
 	if (post.details) {
 		switch (post.type) {
@@ -649,9 +644,9 @@ function downloadImageFromUrl(url, div, image, post) {
 		case 'mp4':
 		case 'webm':
 			img = document.createElement('video');
-			img.addEventListener("loadedmetadata", onLoadFunction);
+			img.addEventListener('loadedmetadata', onLoadFunction);
 			img.setAttribute('autoplay', play);
-			img.setAttribute('loop', true);
+			img.setAttribute('loop', 'true');
 			img.muted = true;
 
 			// Activate play/pause button
@@ -687,11 +682,11 @@ function downloadImageFromUrl(url, div, image, post) {
 
 		// Add details: domain, filename and size, if information has not been read before
 		if (!post.details) {
-			var arguments = (url.search !== '') ? 'Arguments: ' + url.search + '<br>' : '';
-			div.find('.details').html('Domain: ' + url.host + '<br>\
-				' + arguments + '\
-				Filename: ' + url.file + '<br>\
-				Dimension: ' + image.width + 'x' + image.height);
+			const args = (url.search !== '') ? 'Arguments: ' + url.search + '<br>' : '';
+			div.find('.details').html('Domain: ' + url.host + '<br>'
+				+ args
+				+ 'Filename: ' + url.file + '<br>'
+				+ 'Dimension: ' + image.width + 'x' + image.height);
 
 			// Get type from URL
 			image.type = url.ext;
@@ -702,7 +697,7 @@ function downloadImageFromUrl(url, div, image, post) {
 		 */
 		if (img.tagName === 'IMG') {
 			// Clone image in case of CORS error happens
-			var img_clone = img.cloneNode();
+			const img_clone = img.cloneNode();
 
 			// Read dataURL
 			getDataUrl(img, image.width, image.height, function (dataUrl) { // onComplete
@@ -735,10 +730,10 @@ function downloadImageFromUrl(url, div, image, post) {
 
 			// Read EXIF data and append to div if given
 			EXIF.getData(img, function () {
-				var text = EXIF.pretty(this).split('\n').join('<br>');
+				const text = EXIF.pretty(this).split('\n').join('<br>');
 				div.find('.exif').remove();
 				if (text !== '') {
-					div.append(jQuery('<div class="exif">' + text + '</div>'));
+					div.append(jQuery(`<div class="exif">${text}</div>`));
 				} else {
 					div.find('.exif').remove();
 				}
@@ -764,11 +759,11 @@ function handleFile(div, image) {
 	image3.j = null;
 
 	// Append details
-	var details = document.createElement('div');
+	let details = document.createElement('div');
 	details.setAttribute('class', 'details');
-	details.innerHTML = image.file.name + '<br>\
-		Filesize: ' + image.file.size + ' Bytes<br>\
-		Filetype: ' + image.file.type;
+	details.innerHTML = image.file.name + '<br>'
+		+ 'Filesize: ' + image.file.size + ' Bytes<br>'
+		+ 'Filetype: ' + image.file.type;
 	div.append(details);
 	if (!displayDetails) {
 		jQuery('.details').hide();
@@ -776,9 +771,10 @@ function handleFile(div, image) {
 
 	// Append EXIF
 	EXIF.getData(image.file, function () {
-		var text = EXIF.pretty(this).split('\n').join('<br>'); ;
+		const text = EXIF.pretty(this).split('\n').join('<br>');
+
 		if (text !== '') {
-			div.append(jQuery('<div class="exif">' + text + '</div>'));
+			div.append(jQuery(`<div class="exif">${text}</div>`));
 			if (!displayExif) {
 				jQuery('.exif').hide();
 			}
@@ -798,7 +794,7 @@ function handleFile(div, image) {
 	case 'video/mp4':
 		image.dom = document.createElement('video');
 		image.dom.setAttribute('autoplay', play);
-		image.dom.setAttribute('loop', true);
+		image.dom.setAttribute('loop', 'true');
 		image.dom.muted = true;
 
 		// Activate play/pause button
@@ -811,10 +807,10 @@ function handleFile(div, image) {
 	if (image.dom !== null) {
 		image.j = jQuery(image.dom);
 		image.dom.setAttribute('class', 'main');
-		var fileReader = new FileReader();
+		const fileReader = new FileReader();
 
 		fileReader.onload = function (event) {
-			var alreadyOnload = false;
+			let alreadyOnload = false;
 			if (image.file.type.startsWith('image')) {
 				image.dom.onload = function () {
 					if (!alreadyOnload) {
@@ -822,8 +818,8 @@ function handleFile(div, image) {
 						image.width = image.dom.width;
 						image.height = image.dom.height;
 						console.log(image);
-						details.innerHTML = details.innerHTML + '<br>\
-							Dimension: ' + image.width + 'x' + image.height;
+						details.innerHTML = details.innerHTML + '<br>'
+							+ 'Dimension: ' + image.width + 'x' + image.height;
 						div.find('.center').remove();
 						image.zoom.show();
 						reset();
@@ -834,12 +830,12 @@ function handleFile(div, image) {
 						});
 
 						// Metadata from PNG
-						if(image.file.type === 'image/png'){
+						if (image.file.type === 'image/png') {
 							// Textinformation
-							var metadata = readPNGMetadataFromDataUrl(image.dom.src);
-							text = object2html(metadata.text);
-							if(text !== ''){
-								div.append(jQuery('<div class="exif">' + text + '</div>'));
+							const metadata = readPNGMetadataFromDataUrl(image.dom.src);
+							const text = object2html(metadata.text);
+							if (text !== '') {
+								div.append(jQuery(`<div class="exif">${text}</div>`));
 							}
 							// Additional details
 							delete metadata.details.width;
@@ -850,11 +846,11 @@ function handleFile(div, image) {
 					}
 				};
 			} else {
-				image.dom.addEventListener("loadedmetadata", function (e) {
-					image.width = this.videoWidth,
+				image.dom.addEventListener('loadedmetadata', function () {
+					image.width = this.videoWidth;
 					image.height = this.videoHeight;
-					details.innerHTML = details.innerHTML + '<br>\
-						Dimension: ' + image.width + 'x' + image.height;
+					details.innerHTML = details.innerHTML + '<br>'
+						+ 'Dimension: ' + image.width + 'x' + image.height;
 					div.find('.center').remove();
 					image.zoom.show();
 					reset();
@@ -903,22 +899,19 @@ function compareImages() {
 }
 
 // Toggle third block with this
-function displayRight(b) {
-	if (b === undefined) {
-		b = true;
-	}
+function displayRight(b = true) {
 	if (b) {
 		// Activate third panel
 		if (jQuery('#right').is(':visible')) {
 			reset3();
 		} else {
 			jQuery('#left').css({
-				'left': '0',
-				'width': 'calc(100%/3 - 3px)'
+				left: '0',
+				width: 'calc(100%/3 - 3px)'
 			});
 			jQuery('#mid').css({
-				'left': 'calc(100%/3)',
-				'width': 'calc(100%/3 - 3px)'
+				left: 'calc(100%/3)',
+				width: 'calc(100%/3 - 3px)'
 			});
 			jQuery('#right').show()
 			reset();
@@ -926,14 +919,14 @@ function displayRight(b) {
 	} else {
 		// Deactivate third panel
 		jQuery('#left').css({
-			'left': '0',
-			'width': 'calc(50% - 3px)'
+			left: '0',
+			width: 'calc(50% - 3px)'
 		});
 		jQuery('#mid').css({
-			'left': '50%',
-			'width': 'calc(50% - 3px)'
+			left: '50%',
+			width: 'calc(50% - 3px)'
 		});
-		jQuery('#right').hide()
+		jQuery('#right').hide();
 		reset();
 		image3.j = null;
 		image3.dom = null;
@@ -942,23 +935,23 @@ function displayRight(b) {
 
 // Get resized dataURL and run onComplete(dataURL) when finished for an img element
 function getDataUrl(img, w, h, onComplete, onError) {
-	var MAX_WH = 1200; // Max width/height
+	const MAX_WH = 1200; // Max width/height
 	// If portrait
 	if (h > w) {
 		// Max height
-		w = w / h * MAX_WH;
+		w = (w / h) * MAX_WH;
 		h = MAX_WH;
 	} else {
 		// Max width
-		h = h / w * MAX_WH;
+		h = (h / w) * MAX_WH;
 		w = MAX_WH;
 	}
-	img.crossOrigin = "anonymous";
-	var context = document.createElement('canvas').getContext('2d');
+	img.crossOrigin = 'anonymous';
+	const context = document.createElement('canvas').getContext('2d');
 	context.canvas.width = w;
 	context.canvas.height = h;
 	context.drawImage(img, 0, 0, w, h);
-	var dataURL;
+	let dataURL;
 	try {
 		dataURL = context.canvas.toDataURL();
 		if (onComplete) {
@@ -975,12 +968,12 @@ function getDataUrl(img, w, h, onComplete, onError) {
 
 // Get filesize from source and run onComplete(filesize), when done
 function getFilesize(src, onComplete) {
-	var xhr = new XMLHttpRequest();
-	var filesize;
+	const xhr = new XMLHttpRequest();
+	let filesize;
 	xhr.open('HEAD', src, true);
 	xhr.onreadystatechange = function () {
-		if (xhr.readyState == 4) {
-			if ((xhr.status == 200) || (xhr.status == 304)) {
+		if (xhr.readyState === 4) {
+			if ((xhr.status === 200) || (xhr.status === 304)) {
 				filesize = xhr.getResponseHeader('Content-Length');
 				// If "Access-Control-Expose-Headers", "Content-Length" is given
 				if (filesize !== null) {
@@ -997,17 +990,12 @@ function getFilesize(src, onComplete) {
 }
 
 // Parse URL
-function parseUrl(link) {
-
-	if (link === undefined) {
-		link = document.location.href;
-	}
-
-	var url = {};
+function parseUrl(link = document.location.href) {
+	const url = {};
 	url.href = link;
 
 	// Split link into link and hash part
-	var n = link.indexOf('#');
+	let n = link.indexOf('#');
 	if (n > -1) {
 		url.hash = link.substr(n + 1);
 		url.hrefNoHash = link.substr(0, n);
@@ -1029,8 +1017,8 @@ function parseUrl(link) {
 
 	// Get all parts of the link
 	// Regexp coarse: ((protocol://host:port)|file://)(path)(name.ext)
-	var regexp = /^((([^\/\.]+):\/\/)?(([^\/\.]+\.)*[^\/\.]+\.[^\/\.:]+(:\d+)?)|(file):\/\/)(\/.+\/|\/)?([^\/]+)?$/;
-	var tokens = regexp.exec(url.hrefNoSearch);
+	const regexp = /^((([^/.]+):\/\/)?(([^/.]+\.)*[^/.]+\.[^/.:]+(:\d+)?)|(file):\/\/)(\/.+\/|\/)?([^/]+)?$/;
+	const tokens = regexp.exec(url.hrefNoSearch);
 	// url.regexp = regexp; // Save to check
 	// url.tokens = tokens;
 	/* Tokens:
@@ -1077,8 +1065,8 @@ function parseUrl(link) {
 	// Parse arguments
 	url.args = {};
 	if (url.search !== '') {
-		var array = url.search.split('&');
-		for (var i = 0; i < array.length; i++) {
+		const array = url.search.split('&');
+		for (let i = 0; i < array.length; i++) {
 			n = array[i].indexOf('=');
 			if (n > -1) {
 				url.args[decodeURIComponent(array[i].substr(0, n))] =
@@ -1094,29 +1082,29 @@ function parseUrl(link) {
 
 function readPNGMetadataFromDataUrl(dataUrl) {
 
-	var metadata = {};
+	const metadata = {};
 	metadata.details = {};
 	metadata.text = {};
 	metadata.details.data_size = 0;
 
 	// Convert dataUrl to a binary array
 	dataUrl = dataUrl.substr('data:image/png;base64,'.length);
-	var binary = atob(dataUrl);
-	var len = binary.length;
+	const binary = atob(dataUrl);
+	const len = binary.length;
 
 	// Chunk header info
-	var n_chunkLength;
-	var s_chunkType;
-	var n_chunkCRC;
+	let n_chunkLength;
+	let s_chunkType;
+	let n_chunkCRC;
 
 	// For all bytes (skip first 8 which are PNG signature)
-	for (var i = 8; i < len; i++) {
+	for (let i = 8; i < len; i++) {
 
 		// Chunk header and trailer
 		n_chunkLength = binaryToInt(i, 4);
 		s_chunkType = binaryToChunkname(i + 4, 4);
 		n_chunkCRC = binaryToInt(i + n_chunkLength + 8, 4);
-		if(s_chunkType !== 'IDAT'){
+		if (s_chunkType !== 'IDAT') {
 			console.log(n_chunkLength, s_chunkType, n_chunkCRC);
 		}
 
@@ -1124,7 +1112,7 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 		i += 8;
 
 		// Handle chunk data
-		switch(s_chunkType){
+		switch (s_chunkType) {
 			// Handle PNG header
 			case 'IHDR':
 				metadata.details.width = binaryToInt(i, 4);
@@ -1136,8 +1124,8 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 				metadata.details.interlace_method = binaryToInt(i + 12, 1);
 
 				// Make the IHDR humanly readable
-				metadata.details.bitdepth = metadata.details.bitdepth + ' bits/sample'
-				switch(metadata.details.color_type){
+				metadata.details.bitdepth += ' bits/sample';
+				switch (metadata.details.color_type) {
 					case 0:
 						metadata.details.color_type = 'none';
 						break;
@@ -1154,7 +1142,7 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 						metadata.details.color_type = 'color/alpha';
 						break;
 				}
-				switch(metadata.details.interlace_method){
+				switch (metadata.details.interlace_method) {
 					case 0:
 						metadata.details.interlace_method = 'no interlace';
 						break;
@@ -1174,17 +1162,23 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 
 			// Handle text information
 			case 'tEXt':
-				array_text = binaryToString(i, n_chunkLength).split('\0');
+			{
+				const array_text = binaryToString(i, n_chunkLength).split('\0');
 				metadata.text[array_text[0]] = array_text[1];
 				break;
+			}
 			case 'zTXt':
-				array_text = binaryToString(i, n_chunkLength).split('\0');
+			{
+				const array_text = binaryToString(i, n_chunkLength).split('\0');
 				metadata.text[array_text[0]] = 'compressed ' + n_chunkLength + ' byte text';
 				break;
+			}
 			case 'iTXt':
-				array_text = binaryToString(i, n_chunkLength).split('\0');
+			{
+				const array_text = binaryToString(i, n_chunkLength).split('\0');
 				metadata.text[array_text[0]] = 'icompressed ' + n_chunkLength + ' byte text';
 				break;
+			}
 
 			// Handle miscellaneous information
 
@@ -1217,11 +1211,11 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 				metadata.text.pixels_per_unit_X = binaryToInt(i, 4);
 				metadata.text.pixels_per_unit_Y = binaryToInt(i + 4, 4);
 				metadata.text.unit = binaryToInt(i + 5, 1);
-				switch(metadata.text.unit){
+				switch (metadata.text.unit) {
 					case 0:
 						metadata.text.unit = 'unknown';
 						break;
-					case 0:
+					case 1:
 						metadata.text.unit = 'meter';
 						break;
 				}
@@ -1242,52 +1236,40 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 
 	return metadata;
 
-	function binaryToInt(i, len) {
-		var n_0 = 0;
-		if (i !== undefined) {
-			n_0 = i;
-		}
-		if (len === undefined){
-			len = 4;
-		}
-		var n_e = n_0 + len;
-		var value = 0;
-		for (var i = n_e - 1; i >= n_0; i--) {
-			// console.log(i, value, binary.charCodeAt(i), n_e - i -1);
-			value += binary.charCodeAt(i)*Math.pow(256, n_e - i -1);
+	function binaryToInt(i = 0, len = 4) {
+		const n_0 = i;
+		const n_e = n_0 + len;
+		let value = 0;
+		for (let j = n_e - 1; j >= n_0; j--) {
+			value += binary.charCodeAt(j) * Math.pow(256, n_e - j - 1);
 		}
 
 		return value;
 	}
 
-	function binaryToChunkname(i){
+	function binaryToChunkname(i) {
 		return binary[i] + binary[i+1] + binary[i+2] + binary[i+3];
 	}
 
-	function binaryToString(i, len){
-		if(len === undefined){
-			len = 4;
-		}
+	function binaryToString(i, len = 4) {
 		len += i;
-		console.log(i, len);
-		var s_value = '';
-		for(var j = i; j < len; j++){
+		let s_value = '';
+		for (let j = i; j < len; j++) {
 			s_value += binary[j];
-			// console.log(j, s_value, binary[j]);
 		}
 		return s_value;
 	}
 }
 
-function object2html(obj){
-	var s = '';
-	for(var key in obj){
-		s += key + ': ' + obj[key] + '<br>';
+function object2html(obj) {
+	let s = '';
+	for (const key in obj) {
+		s += `${key}: ${obj[key]}<br>`;
 	}
-	if(s !== ''){
+	if (s !== '') {
 		s = s.substr(0, s.length - '<br>'.length);
 	}
 	return s;
 }
 
-//})();
+})();

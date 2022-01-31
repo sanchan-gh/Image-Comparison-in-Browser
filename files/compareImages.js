@@ -599,7 +599,7 @@ console.debug(data);
 			post.width = data.width;
 			post.height = data.height;
 			post.type = data.file_type.split('/')[1];
-			post.details = `Post #${post.id}<br>Filetype: ${post.type}<br>Filesize: ${post.bytes}`;
+			post.details = `Post #${post.id}<br>Filesize: ${post.bytes} Bytes<br>Filetype: ${post.type}<br>Dimension: ${data.width}x${data.height}`;
 
 			if (onComplete) {
 				onComplete(post);

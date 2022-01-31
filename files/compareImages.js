@@ -673,8 +673,8 @@ function downloadImageFromUrl(url, div, image, post) {
 	function onLoadFunction() {
 		// Get image width and height on display
 		if (img.tagName === 'IMG') {
-			image.width = img.width;
-			image.height = img.height;
+			image.width = img.naturalWidth;
+			image.height = img.naturalHeight;
 		} else {
 			image.width = this.videoWidth;
 			image.height = this.videoHeight;

@@ -28,7 +28,7 @@ let displayPixelated = true;
 
 	// Details and Exif button listener
 	displayDetails = jQuery('#displayDetails').is(':checked');
-	jQuery('#displayDetails').parent().bind('click', function () {
+	jQuery('#displayDetails').parent().bind('click', function() {
 		displayDetails = this.childNodes[0].checked;
 		if (displayDetails) {
 			jQuery('.details').show();
@@ -37,7 +37,7 @@ let displayPixelated = true;
 		}
 	});
 	displayExif = jQuery('#displayExif').is(':checked');
-	jQuery('#displayExif').parent().bind('click', function () {
+	jQuery('#displayExif').parent().bind('click', function() {
 		displayExif = this.childNodes[0].checked;
 		if (displayExif) {
 			jQuery('.exif').show();
@@ -47,11 +47,11 @@ let displayPixelated = true;
 	});
 	displayPixelated = jQuery('#pixelated').is(':checked');
 	const pixelatedStyle = 'image-rendering:crisp-edges; image-rendering:-moz-crisp-edges; image-rendering:pixelated; image-rendering: -o-crisp-edges; -ms-interpolation-mode: nearest-neighbor';
-	if(displayPixelated){
+	if (displayPixelated) {
 		jQuery('#content').attr('style', pixelatedStyle);
 	}
 	jQuery('#content').css({'image-rendering': 'crisp-edges'});
-	jQuery('#pixelated').parent().bind('click', function () {
+	jQuery('#pixelated').parent().bind('click', function() {
 		displayPixelated = this.childNodes[0].checked;
 		if (displayPixelated) {
 			jQuery('#content').attr('style', pixelatedStyle);
@@ -64,12 +64,12 @@ let displayPixelated = true;
 	jQuery('#play').bind('click', () => {
 		if (play) {
 			play = false;
-			jQuery('video').each(function () {
+			jQuery('video').each(function() {
 				this.pause();
 			});
 		} else {
 			play = true;
-			jQuery('video').each(function () {
+			jQuery('video').each(function() {
 				this.play();
 			});
 		}
@@ -120,13 +120,13 @@ let displayPixelated = true;
 
 	// Listener for resemble
 	jQuery('input[name="resemble-method"], input[name="resemble-color"]')
-	.each(function (i) {
+	.each(function(i) {
 		// Reset to "nothing" and "flat"
 		if ((i === 0) || (i === 3)) {
 			this.checked = true;
 		}
 		this.disabled = true;
-		this.onclick = function () {
+		this.onclick = function() {
 			if (resembleConfig !== null) {
 				switch (this.parentNode.innerText) {
 				case 'Nothing':
@@ -733,7 +733,7 @@ function downloadImageFromUrl(url, div, image, post) {
 			}
 
 			// Read EXIF data and append to div if given
-			EXIF.getData(img, function () {
+			EXIF.getData(img, function() {
 				const text = EXIF.pretty(this).split('\n').join('<br>');
 				div.find('.exif').remove();
 				if (text !== '') {
@@ -774,7 +774,7 @@ function handleFile(div, image) {
 	}
 
 	// Append EXIF
-	EXIF.getData(image.file, function () {
+	EXIF.getData(image.file, function() {
 		const text = EXIF.pretty(this).split('\n').join('<br>');
 		if (text !== '') {
 			div.append(jQuery('<div class="exif">' + text + '</div>'));
@@ -812,10 +812,10 @@ function handleFile(div, image) {
 		image.dom.setAttribute('class', 'main');
 		const fileReader = new FileReader();
 
-		fileReader.onload = function (event) {
+		fileReader.onload = function(event) {
 			let alreadyOnload = false;
 			if (image.file.type.startsWith('image')) {
-				image.dom.onload = function () {
+				image.dom.onload = function() {
 					if (!alreadyOnload) {
 						alreadyOnload = true;
 						image.width = image.dom.width;
@@ -832,11 +832,11 @@ function handleFile(div, image) {
 						});
 
 						// Metadata from PNG
-						if(image.file.type === 'image/png'){
+						if (image.file.type === 'image/png') {
 							// Textinformation
 							const metadata = readPNGMetadataFromDataUrl(image.dom.src);
 							const text = object2html(metadata.text);
-							if(text !== ''){
+							if (text !== '') {
 								div.append(jQuery('<div class="exif">' + text + '</div>'));
 							}
 							// Additional details
@@ -848,7 +848,7 @@ function handleFile(div, image) {
 					}
 				};
 			} else {
-				image.dom.addEventListener('loadedmetadata', function (e) {
+				image.dom.addEventListener('loadedmetadata', function(e) {
 					image.width = this.videoWidth;
 					image.height = this.videoHeight;
 					details.innerHTML += `<br>Dimension: ${image.width}x${image.height}`;
@@ -887,7 +887,7 @@ function compareImages() {
 				image3.width = image1.width;
 				image3.height = image1.height;
 				jQuery('#right > .details').html('Mismatch: ' + data.misMatchPercentage + ' %');
-				jQuery('input[name="resemble-method"], input[name="resemble-color"]').each(function () {
+				jQuery('input[name="resemble-method"], input[name="resemble-color"]').each(function() {
 					this.disabled = false;
 				});
 
@@ -975,7 +975,7 @@ function getFilesize(src, onComplete) {
 	const xhr = new XMLHttpRequest();
 	let filesize;
 	xhr.open('HEAD', src, true);
-	xhr.onreadystatechange = function () {
+	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4) {
 			if ((xhr.status == 200) || (xhr.status == 304)) {
 				filesize = xhr.getResponseHeader('Content-Length');
@@ -1113,7 +1113,7 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 		n_chunkLength = binaryToInt(i, 4);
 		s_chunkType = binaryToChunkname(i + 4, 4);
 		n_chunkCRC = binaryToInt(i + n_chunkLength + 8, 4);
-		if(s_chunkType !== 'IDAT'){
+		if (s_chunkType !== 'IDAT') {
 			console.log(n_chunkLength, s_chunkType, n_chunkCRC);
 		}
 
@@ -1121,7 +1121,7 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 		i += 8;
 
 		// Handle chunk data
-		switch(s_chunkType){
+		switch (s_chunkType) {
 			// Handle PNG header
 			case 'IHDR':
 				metadata.details.width = binaryToInt(i, 4);
@@ -1134,7 +1134,7 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 
 				// Make the IHDR humanly readable
 				metadata.details.bitdepth += ' bits/sample';
-				switch(metadata.details.color_type){
+				switch (metadata.details.color_type) {
 					case 0:
 						metadata.details.color_type = 'none';
 						break;
@@ -1151,7 +1151,7 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 						metadata.details.color_type = 'color/alpha';
 						break;
 				}
-				switch(metadata.details.interlace_method){
+				switch (metadata.details.interlace_method) {
 					case 0:
 						metadata.details.interlace_method = 'no interlace';
 						break;
@@ -1217,7 +1217,7 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 				metadata.text.pixels_per_unit_X = binaryToInt(i, 4);
 				metadata.text.pixels_per_unit_Y = binaryToInt(i + 4, 4);
 				metadata.text.unit = binaryToInt(i + 5, 1);
-				switch(metadata.text.unit){
+				switch (metadata.text.unit) {
 					case 0:
 						metadata.text.unit = 'unknown';
 						break;
@@ -1247,7 +1247,7 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 		if (i !== undefined) {
 			n_0 = i;
 		}
-		if (len === undefined){
+		if (len === undefined) {
 			len = 4;
 		}
 		const n_e = n_0 + len;
@@ -1260,18 +1260,18 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 		return value;
 	}
 
-	function binaryToChunkname(i){
+	function binaryToChunkname(i) {
 		return binary[i] + binary[i+1] + binary[i+2] + binary[i+3];
 	}
 
-	function binaryToString(i, len){
-		if(len === undefined){
+	function binaryToString(i, len) {
+		if (len === undefined) {
 			len = 4;
 		}
 		len += i;
 		console.log(i, len);
 		let s_value = '';
-		for(let j = i; j < len; j++){
+		for (let j = i; j < len; j++) {
 			s_value += binary[j];
 			// console.log(j, s_value, binary[j]);
 		}
@@ -1279,12 +1279,12 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 	}
 }
 
-function object2html(obj){
+function object2html(obj) {
 	let s = '';
-	for(const key in obj){
+	for (const key in obj) {
 		s += key + ': ' + obj[key] + '<br>';
 	}
-	if(s !== ''){
+	if (s !== '') {
 		s = s.substr(0, s.length - '<br>'.length);
 	}
 	return s;

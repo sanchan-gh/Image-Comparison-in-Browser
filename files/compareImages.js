@@ -140,25 +140,25 @@ let displayPixelated = true;
 					break;
 				case 'Flat':
 					resemble.outputSettings({
-						errorType: 'flat'
+						errorType: 'flat',
 					});
 					resembleConfig.repaint();
 					break;
 				case 'Move':
 					resemble.outputSettings({
-						errorType: 'movement'
+						errorType: 'movement',
 					});
 					resembleConfig.repaint();
 					break;
 				case 'Flat diff':
 					resemble.outputSettings({
-						errorType: 'flatDifferenceIntensity'
+						errorType: 'flatDifferenceIntensity',
 					});
 					resembleConfig.repaint();
 					break;
 				case 'Move diff':
 					resemble.outputSettings({
-						errorType: 'movementDifferenceIntensity'
+						errorType: 'movementDifferenceIntensity',
 					});
 					resembleConfig.repaint();
 					break;
@@ -375,7 +375,7 @@ function reset() {
 				width: w_p,
 				height: w_p * r_1,
 				top: 0.5 * (h_p - w_p * r_1),
-				left: 0
+				left: 0,
 			});
 		}
 		if (r_2) {
@@ -383,7 +383,7 @@ function reset() {
 				width: w_p,
 				height: w_p * r_2,
 				top: 0.5 * (h_p - w_p * r_2),
-				left: 0
+				left: 0,
 			});
 		}
 	} else {
@@ -393,7 +393,7 @@ function reset() {
 				width: h_p / r_1,
 				height: h_p,
 				top: 0,
-				left: 0.5 * (w_p - h_p / r_1)
+				left: 0.5 * (w_p - h_p / r_1),
 			});
 		}
 		if (r_2) {
@@ -401,7 +401,7 @@ function reset() {
 				width: h_p / r_2,
 				height: h_p,
 				top: 0,
-				left: 0.5 * (w_p - h_p / r_2)
+				left: 0.5 * (w_p - h_p / r_2),
 			});
 		}
 	}
@@ -425,7 +425,7 @@ function reset3() {
 			width: image1.j.width(),
 			height: image1.j.height(),
 			top: image1.j.css('top'),
-			left: image1.j.css('left')
+			left: image1.j.css('left'),
 		});
 	}
 }
@@ -561,7 +561,7 @@ function handleUrl(url, div, image) {
 		tokens = /^https:\/\/cs\.sankakucomplex\.com\/.+\.(.+)\?(\d+)$/.exec(url.href);
 		if (tokens) {
 			const post = {
-				id: tokens[2]
+				id: tokens[2],
 			};
 			image.type = tokens[1];
 			image.src = url.href;
@@ -876,7 +876,7 @@ function compareImages() {
 		if (resembleConfig === null) {
 			resemble.outputSettings({
 				largeImageThreshold: 1200,
-				transparency: 0.3
+				transparency: 0.3,
 			});
 		}
 
@@ -911,11 +911,11 @@ function displayRight(b) {
 		} else {
 			jQuery('#left').css({
 				left: '0',
-				width: 'calc(100%/3 - 3px)'
+				width: 'calc(100%/3 - 3px)',
 			});
 			jQuery('#mid').css({
 				left: 'calc(100%/3)',
-				width: 'calc(100%/3 - 3px)'
+				width: 'calc(100%/3 - 3px)',
 			});
 			jQuery('#right').show();
 			reset();
@@ -924,11 +924,11 @@ function displayRight(b) {
 		// Deactivate third panel
 		jQuery('#left').css({
 			left: '0',
-			width: 'calc(50% - 3px)'
+			width: 'calc(50% - 3px)',
 		});
 		jQuery('#mid').css({
 			left: '50%',
-			width: 'calc(50% - 3px)'
+			width: 'calc(50% - 3px)',
 		});
 		jQuery('#right').hide();
 		reset();

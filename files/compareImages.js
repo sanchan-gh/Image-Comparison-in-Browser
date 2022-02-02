@@ -599,7 +599,7 @@ console.debug(data);
 			post.width = data.width;
 			post.height = data.height;
 			post.type = data.file_type.split('/')[1];
-			post.details = `Post #${post.id}<br>Filetype: ${post.type}<br>Filesize: ${post.bytes}`;
+			post.details = `Post #${post.id}<br>Filesize: ${post.bytes} Bytes<br>Filetype: ${post.type}<br>Dimension: ${data.width}x${data.height}`;
 
 			if (onComplete) {
 				onComplete(post);
@@ -673,8 +673,8 @@ function downloadImageFromUrl(url, div, image, post) {
 	function onLoadFunction() {
 		// Get image width and height on display
 		if (img.tagName === 'IMG') {
-			image.width = img.width;
-			image.height = img.height;
+			image.width = img.naturalWidth;
+			image.height = img.naturalHeight;
 		} else {
 			image.width = this.videoWidth;
 			image.height = this.videoHeight;

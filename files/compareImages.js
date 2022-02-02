@@ -552,6 +552,11 @@ function handleUrl(url, div, image) {
 		div.append(jQuery('<div class="center"></div>'));
 		div.find('.center').html('Loading post from Sankakucomplex...');
 		getSankakuPost(tokens[1], function (post) { // onComplete
+			if (post.status === 'deleted') {
+				div.find('.center').html('Post has been deleted.');
+				return;
+			}
+
 			image.type = post.type;
 			image.src = getAbsolutePath(post.src);
 			downloadImageFromUrl(url, div, image, post);
@@ -600,6 +605,7 @@ console.debug(data);
 			post.height = data.height;
 			post.type = data.file_type.split('/')[1];
 			post.details = `Post #${post.id}<br>Filesize: ${post.bytes} Bytes<br>Filetype: ${post.type}<br>Dimension: ${data.width}x${data.height}`;
+			post.status = data.status;
 
 			if (onComplete) {
 				onComplete(post);

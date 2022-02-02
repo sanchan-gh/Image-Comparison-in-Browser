@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 //(function () {
 
 // Global variables
@@ -190,20 +191,20 @@ let displayPixelated = true;
 			const y = event.originalEvent.movementY;
 			if (image1.j !== null) {
 				image1.j.css({
-					'top': (image1.j.position().top + y) + 'px',
-					'left': (image1.j.position().left + x) + 'px',
+					top: (image1.j.position().top + y) + 'px',
+					left: (image1.j.position().left + x) + 'px',
 				});
 			}
 			if (image2.j !== null) {
 				image2.j.css({
-					'top': image2.j.position().top + y + 'px',
-					'left': image2.j.position().left + x + 'px',
+					top: image2.j.position().top + y + 'px',
+					left: image2.j.position().left + x + 'px',
 				});
 			}
 			if (image3.j !== null) {
 				image3.j.css({
-					'top': image3.j.position().top + y + 'px',
-					'left': image3.j.position().left + x + 'px',
+					top: image3.j.position().top + y + 'px',
+					left: image3.j.position().left + x + 'px',
 				});
 			}
 		}
@@ -229,26 +230,26 @@ let displayPixelated = true;
 		// Zooming along with pan => zooming at hovered point (natural feel)
 		if (image1.j !== null) {
 			image1.j.css({
-				'width': image1.j.width() * (1 + s) + 'px',
-				'height': image1.j.height() * (1 + s) + 'px',
-				'top': y_0 + (1 + s) * (image1.j.position().top - y_0) + 'px',
-				'left': x_0 + (1 + s) * (image1.j.position().left - x_0) + 'px',
+				width: image1.j.width() * (1 + s) + 'px',
+				height: image1.j.height() * (1 + s) + 'px',
+				top: y_0 + (1 + s) * (image1.j.position().top - y_0) + 'px',
+				left: x_0 + (1 + s) * (image1.j.position().left - x_0) + 'px',
 			});
 		}
 		if (image2.j !== null) {
 			image2.j.css({
-				'width': image2.j.width() * (1 + s) + 'px',
-				'height': image2.j.height() * (1 + s) + 'px',
-				'top': y_0 + (1 + s) * (image2.j.position().top - y_0) + 'px',
-				'left': x_0 + (1 + s) * (image2.j.position().left - x_0) + 'px',
+				width: image2.j.width() * (1 + s) + 'px',
+				height: image2.j.height() * (1 + s) + 'px',
+				top: y_0 + (1 + s) * (image2.j.position().top - y_0) + 'px',
+				left: x_0 + (1 + s) * (image2.j.position().left - x_0) + 'px',
 			});
 		}
 		if (image3.j !== null) {
 			image3.j.css({
-				'width': image3.j.width() * (1 + s) + 'px',
-				'height': image3.j.height() * (1 + s) + 'px',
-				'top': y_0 + (1 + s) * (image3.j.position().top - y_0) + 'px',
-				'left': x_0 + (1 + s) * (image3.j.position().left - x_0) + 'px',
+				width: image3.j.width() * (1 + s) + 'px',
+				height: image3.j.height() * (1 + s) + 'px',
+				top: y_0 + (1 + s) * (image3.j.position().top - y_0) + 'px',
+				left: x_0 + (1 + s) * (image3.j.position().left - x_0) + 'px',
 			});
 		}
 
@@ -276,20 +277,20 @@ let displayPixelated = true;
 
 		if (image1.j !== null) {
 			image1.j.css({
-				'top': (image1.j.position().top + y) + 'px',
-				'left': (image1.j.position().left + x) + 'px',
+				top: (image1.j.position().top + y) + 'px',
+				left: (image1.j.position().left + x) + 'px',
 			});
 		}
 		if (image2.j !== null) {
 			image2.j.css({
-				'top': image2.j.position().top + y + 'px',
-				'left': image2.j.position().left + x + 'px',
+				top: image2.j.position().top + y + 'px',
+				left: image2.j.position().left + x + 'px',
 			});
 		}
 		if (image3.j !== null) {
 			image3.j.css({
-				'top': image3.j.position().top + y + 'px',
-				'left': image3.j.position().left + x + 'px',
+				top: image3.j.position().top + y + 'px',
+				left: image3.j.position().left + x + 'px',
 			});
 		}
 
@@ -339,7 +340,7 @@ function handleArguments(args) {
 
 // Function to clone JS objects
 function clone(obj) {
-	if (null == obj || "object" != typeof obj)
+	if (null == obj || 'object' != typeof obj)
 		return obj;
 	const copy = obj.constructor();
 	for (const attr in obj) {
@@ -371,36 +372,36 @@ function reset() {
 		// Maximize width
 		if (r_1) {
 			image1.j.css({
-				'width': w_p,
-				'height': w_p * r_1,
-				'top': 0.5 * (h_p - w_p * r_1),
-				'left': 0
+				width: w_p,
+				height: w_p * r_1,
+				top: 0.5 * (h_p - w_p * r_1),
+				left: 0
 			});
 		}
 		if (r_2) {
 			image2.j.css({
-				'width': w_p,
-				'height': w_p * r_2,
-				'top': 0.5 * (h_p - w_p * r_2),
-				'left': 0
+				width: w_p,
+				height: w_p * r_2,
+				top: 0.5 * (h_p - w_p * r_2),
+				left: 0
 			});
 		}
 	} else {
 		// Maximize height
 		if (r_1) {
 			image1.j.css({
-				'width': h_p / r_1,
-				'height': h_p,
-				'top': 0,
-				'left': 0.5 * (w_p - h_p / r_1)
+				width: h_p / r_1,
+				height: h_p,
+				top: 0,
+				left: 0.5 * (w_p - h_p / r_1)
 			});
 		}
 		if (r_2) {
 			image2.j.css({
-				'width': h_p / r_2,
-				'height': h_p,
-				'top': 0,
-				'left': 0.5 * (w_p - h_p / r_2)
+				width: h_p / r_2,
+				height: h_p,
+				top: 0,
+				left: 0.5 * (w_p - h_p / r_2)
 			});
 		}
 	}
@@ -421,10 +422,10 @@ function reset() {
 function reset3() {
 	if (image3.j !== null) {
 		image3.j.css({
-			'width': image1.j.width(),
-			'height': image1.j.height(),
-			'top': image1.j.css('top'),
-			'left': image1.j.css('left')
+			width: image1.j.width(),
+			height: image1.j.height(),
+			top: image1.j.css('top'),
+			left: image1.j.css('left')
 		});
 	}
 }
@@ -450,26 +451,26 @@ function reset100(base) {
 	// Zooming along with pan => zooming at hovered point (natural feel)
 	if (image1.j !== null) {
 		image1.j.css({
-			'width': image1.j.width() * (1 + s) + 'px',
-			'height': image1.j.height() * (1 + s) + 'px',
-			'top': y_0 + (1 + s) * (image1.j.position().top - y_0) + 'px',
-			'left': x_0 + (1 + s) * (image1.j.position().left - x_0) + 'px',
+			width: image1.j.width() * (1 + s) + 'px',
+			height: image1.j.height() * (1 + s) + 'px',
+			top: y_0 + (1 + s) * (image1.j.position().top - y_0) + 'px',
+			left: x_0 + (1 + s) * (image1.j.position().left - x_0) + 'px',
 		});
 	}
 	if (image2.j !== null) {
 		image2.j.css({
-			'width': image2.j.width() * (1 + s) + 'px',
-			'height': image2.j.height() * (1 + s) + 'px',
-			'top': y_0 + (1 + s) * (image2.j.position().top - y_0) + 'px',
-			'left': x_0 + (1 + s) * (image2.j.position().left - x_0) + 'px',
+			width: image2.j.width() * (1 + s) + 'px',
+			height: image2.j.height() * (1 + s) + 'px',
+			top: y_0 + (1 + s) * (image2.j.position().top - y_0) + 'px',
+			left: x_0 + (1 + s) * (image2.j.position().left - x_0) + 'px',
 		});
 	}
 	if (image3.j !== null) {
 		image3.j.css({
-			'width': image3.j.width() * (1 + s) + 'px',
-			'height': image3.j.height() * (1 + s) + 'px',
-			'top': y_0 + (1 + s) * (image3.j.position().top - y_0) + 'px',
-			'left': x_0 + (1 + s) * (image3.j.position().left - x_0) + 'px',
+			width: image3.j.width() * (1 + s) + 'px',
+			height: image3.j.height() * (1 + s) + 'px',
+			top: y_0 + (1 + s) * (image3.j.position().top - y_0) + 'px',
+			left: x_0 + (1 + s) * (image3.j.position().left - x_0) + 'px',
 		});
 	}
 
@@ -496,15 +497,15 @@ function dragDropDiv(div, image) {
 		div.addClass('drag-over');
 		return false;
 	})
-	.bind("dragend", () => {
+	.bind('dragend', () => {
 		div.removeClass('drag-over');
 		return false;
 	})
-	.bind("dragleave", () => {
+	.bind('dragleave', () => {
 		div.removeClass('drag-over');
 		return false;
 	})
-	.bind("drop", (event) => {
+	.bind('drop', (event) => {
 		const file = event.originalEvent.dataTransfer.files[0];
 		console.log(event);
 		if (file) {
@@ -647,7 +648,7 @@ function downloadImageFromUrl(url, div, image, post) {
 		case 'mp4':
 		case 'webm':
 			img = document.createElement('video');
-			img.addEventListener("loadedmetadata", onLoadFunction);
+			img.addEventListener('loadedmetadata', onLoadFunction);
 			img.setAttribute('autoplay', play);
 			img.setAttribute('loop', true);
 			img.muted = true;
@@ -847,7 +848,7 @@ function handleFile(div, image) {
 					}
 				};
 			} else {
-				image.dom.addEventListener("loadedmetadata", function (e) {
+				image.dom.addEventListener('loadedmetadata', function (e) {
 					image.width = this.videoWidth;
 					image.height = this.videoHeight;
 					details.innerHTML += `<br>Dimension: ${image.width}x${image.height}`;
@@ -909,12 +910,12 @@ function displayRight(b) {
 			reset3();
 		} else {
 			jQuery('#left').css({
-				'left': '0',
-				'width': 'calc(100%/3 - 3px)'
+				left: '0',
+				width: 'calc(100%/3 - 3px)'
 			});
 			jQuery('#mid').css({
-				'left': 'calc(100%/3)',
-				'width': 'calc(100%/3 - 3px)'
+				left: 'calc(100%/3)',
+				width: 'calc(100%/3 - 3px)'
 			});
 			jQuery('#right').show();
 			reset();
@@ -922,12 +923,12 @@ function displayRight(b) {
 	} else {
 		// Deactivate third panel
 		jQuery('#left').css({
-			'left': '0',
-			'width': 'calc(50% - 3px)'
+			left: '0',
+			width: 'calc(50% - 3px)'
 		});
 		jQuery('#mid').css({
-			'left': '50%',
-			'width': 'calc(50% - 3px)'
+			left: '50%',
+			width: 'calc(50% - 3px)'
 		});
 		jQuery('#right').hide();
 		reset();
@@ -949,7 +950,7 @@ function getDataUrl(img, w, h, onComplete, onError) {
 		h = h / w * MAX_WH;
 		w = MAX_WH;
 	}
-	img.crossOrigin = "anonymous";
+	img.crossOrigin = 'anonymous';
 	const context = document.createElement('canvas').getContext('2d');
 	context.canvas.width = w;
 	context.canvas.height = h;
@@ -1132,7 +1133,7 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 				metadata.details.interlace_method = binaryToInt(i + 12, 1);
 
 				// Make the IHDR humanly readable
-				metadata.details.bitdepth = metadata.details.bitdepth + ' bits/sample'
+				metadata.details.bitdepth += ' bits/sample';
 				switch(metadata.details.color_type){
 					case 0:
 						metadata.details.color_type = 'none';

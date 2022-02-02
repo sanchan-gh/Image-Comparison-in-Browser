@@ -206,7 +206,7 @@ let displayPixelated = true;
 					'left': image3.j.position().left + x + 'px',
 				});
 			}
-		};
+		}
 	}
 	function panstart(event) {
 		panOn = true;
@@ -255,7 +255,7 @@ let displayPixelated = true;
 		updateZoomButton();
 
 		return false;
-	};
+	}
 
 	// Center element on resize
 	jQuery(window).bind('resize', onresize);
@@ -360,11 +360,11 @@ function reset() {
 	let r_1;
 	if (image1.j !== null) { // If image has been calculated
 		r_1 = image1.height / image1.width;
-	};
+	}
 	let r_2;
 	if (image2.j !== null) { // If image has been calculated
 		r_2 = image2.height / image2.width;
-	};
+	}
 
 	// If parent is more portrait
 	if (r_p > r_1) {
@@ -476,7 +476,7 @@ function reset100(base) {
 	updateZoomButton();
 
 	return false;
-};
+}
 
 // Zoom button update to current zoom
 function updateZoomButton() {
@@ -525,7 +525,7 @@ function dragDropDiv(div, image) {
 		div.removeClass('drag-over');
 		return false;
 	});
-};
+}
 
 // Handle dropped URL
 function handleUrl(url, div, image) {
@@ -570,7 +570,7 @@ function handleUrl(url, div, image) {
 			image.src = url.href;
 			downloadImageFromUrl(url, div, image);
 		}
-	};
+	}
 
 	function getAbsolutePath(link) {
 		if (!link.startsWith('https:')) {
@@ -775,7 +775,7 @@ function handleFile(div, image) {
 
 	// Append EXIF
 	EXIF.getData(image.file, function () {
-		const text = EXIF.pretty(this).split('\n').join('<br>'); ;
+		const text = EXIF.pretty(this).split('\n').join('<br>');
 		if (text !== '') {
 			div.append(jQuery('<div class="exif">' + text + '</div>'));
 			if (!displayExif) {
@@ -850,7 +850,7 @@ function handleFile(div, image) {
 				};
 			} else {
 				image.dom.addEventListener("loadedmetadata", function (e) {
-					image.width = this.videoWidth,
+					image.width = this.videoWidth;
 					image.height = this.videoHeight;
 					details.innerHTML = details.innerHTML + '<br>\
 						Dimension: ' + image.width + 'x' + image.height;
@@ -919,7 +919,7 @@ function displayRight(b) {
 				'left': 'calc(100%/3)',
 				'width': 'calc(100%/3 - 3px)'
 			});
-			jQuery('#right').show()
+			jQuery('#right').show();
 			reset();
 		}
 	} else {
@@ -932,7 +932,7 @@ function displayRight(b) {
 			'left': '50%',
 			'width': 'calc(50% - 3px)'
 		});
-		jQuery('#right').hide()
+		jQuery('#right').hide();
 		reset();
 		image3.j = null;
 		image3.dom = null;

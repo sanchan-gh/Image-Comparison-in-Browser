@@ -1,7 +1,7 @@
 //(function () {
 
 // Global variables
-var image1 = {
+const image1 = {
 	dom: null, // dom-object
 	j: null, // jQuery-object
 	width: 1, // width of the image
@@ -12,15 +12,13 @@ var image1 = {
 	src: '', // For drag and drop from another browser
 	type: '', // file type
 };
-var image2 = clone(image1);
-var image3 = clone(image1);
-var resembleConfig = null;
-var play = true;
-var displayDetails = true;
-var displayExif = true;
-var displayPixelated = true;
-
-var temp;
+const image2 = clone(image1);
+const image3 = clone(image1);
+let resembleConfig = null;
+let play = true;
+let displayDetails = true;
+let displayExif = true;
+let displayPixelated = true;
 
 (function main() {
 	// Bind drag and drop
@@ -47,7 +45,7 @@ var temp;
 		}
 	});
 	displayPixelated = jQuery('#pixelated').is(':checked');
-	var pixelatedStyle = 'image-rendering:crisp-edges; image-rendering:-moz-crisp-edges; image-rendering:pixelated; image-rendering: -o-crisp-edges; -ms-interpolation-mode: nearest-neighbor';
+	const pixelatedStyle = 'image-rendering:crisp-edges; image-rendering:-moz-crisp-edges; image-rendering:pixelated; image-rendering: -o-crisp-edges; -ms-interpolation-mode: nearest-neighbor';
 	if(displayPixelated){
 		jQuery('#content').attr('style', pixelatedStyle);
 	}
@@ -185,11 +183,11 @@ var temp;
 	.bind('dblclick', reset);
 
 	// Pan function
-	var panOn = false;
+	let panOn = false;
 	function pan(event) {
 		if (panOn) {
-			var x = event.originalEvent.movementX;
-			var y = event.originalEvent.movementY;
+			const x = event.originalEvent.movementX;
+			const y = event.originalEvent.movementY;
 			if (image1.j !== null) {
 				image1.j.css({
 					'top': (image1.j.position().top + y) + 'px',
@@ -222,11 +220,11 @@ var temp;
 	// Zoom function
 	function zoom(event) {
 		// Relative scale
-		var s = event.deltaY / 20;
+		const s = event.deltaY / 20;
 
 		// For pan
-		var x_0 = event.offsetX;
-		var y_0 = event.offsetY;
+		const x_0 = event.offsetX;
+		const y_0 = event.offsetY;
 
 		// Zooming along with pan => zooming at hovered point (natural feel)
 		if (image1.j !== null) {
@@ -261,16 +259,16 @@ var temp;
 
 	// Center element on resize
 	jQuery(window).bind('resize', onresize);
-	var old_width = getWidth();
-	var old_height = getHeight();
+	let old_width = getWidth();
+	let old_height = getHeight();
 	function onresize(event) {
-		var width = getWidth();
-		var height = getHeight();
-		var delta_width = width - old_width;
-		var delta_height = height - old_height;
+		const width = getWidth();
+		const height = getHeight();
+		const delta_width = width - old_width;
+		const delta_height = height - old_height;
 
-		var x = delta_width / 4.0;
-		var y = delta_height / 4.0;
+		let x = delta_width / 4.0;
+		let y = delta_height / 4.0;
 		if (image3.j !== null) {
 			x = delta_width / 6.0;
 			y = delta_height / 6.0;
@@ -318,7 +316,7 @@ var temp;
 
 // Handle arguments
 function handleArguments(args) {
-	var url;
+	let url;
 	if (args.sid1) {
 		url = parseUrl('https://chan.sankakucomplex.com/post/show/' + args.sid1);
 	} else if (args.url1) {
@@ -343,8 +341,8 @@ function handleArguments(args) {
 function clone(obj) {
 	if (null == obj || "object" != typeof obj)
 		return obj;
-	var copy = obj.constructor();
-	for (var attr in obj) {
+	const copy = obj.constructor();
+	for (const attr in obj) {
 		if (obj.hasOwnProperty(attr))
 			copy[attr] = obj[attr];
 	}
@@ -354,20 +352,20 @@ function clone(obj) {
 // Reset image scale and pos
 function reset() {
 	// Parent width, height and ratio (for all images same)
-	var w_p = jQuery('.block').width();
-	var h_p = jQuery('.block').height();
-	var r_p = h_p / w_p;
+	const w_p = jQuery('.block').width();
+	const h_p = jQuery('.block').height();
+	const r_p = h_p / w_p;
 
 	// Ratios of the images
-	var r_1;
+	let r_1;
 	if (image1.j !== null) { // If image has been calculated
 		r_1 = image1.height / image1.width;
 	};
-	var r_2;
+	let r_2;
 	if (image2.j !== null) { // If image has been calculated
 		r_2 = image2.height / image2.width;
 	};
-	var r_3;
+	let r_3;
 	if (image3.j !== null) { // If image has been calculated
 		r_3 = image3.height / image3.width;
 	};
@@ -438,12 +436,12 @@ function reset3() {
 // Reset image to 100% zoom (Same as zoom-function but relative scale is from image instead of mousewheel)
 function reset100(base) {
 	// Parent width, height and ratio (for all images same), for natural zoom around center
-	var w_p = jQuery('.block').width();
-	var h_p = jQuery('.block').height();
-	var r_p = h_p / w_p;
+	const w_p = jQuery('.block').width();
+	const h_p = jQuery('.block').height();
+	const r_p = h_p / w_p;
 
 	// Relative scale
-	var s;
+	let s;
 	if (base === 1) {
 		s = image1.width / image1.j.width() - 1;
 	} else {
@@ -451,8 +449,8 @@ function reset100(base) {
 	}
 
 	// For pan
-	var x_0 = w_p / 2;
-	var y_0 = h_p / 2;
+	const x_0 = w_p / 2;
+	const y_0 = h_p / 2;
 
 	// Zooming along with pan => zooming at hovered point (natural feel)
 	if (image1.j !== null) {
@@ -512,7 +510,7 @@ function dragDropDiv(div, image) {
 		return false;
 	})
 	.bind("drop", function (event) {
-		var file = event.originalEvent.dataTransfer.files[0];
+		const file = event.originalEvent.dataTransfer.files[0];
 		console.log(event);
 		if (file) {
 			if (file.size > 100 * 1024 * 1024) {
@@ -524,7 +522,7 @@ function dragDropDiv(div, image) {
 				handleFile(div, image);
 			}
 		} else {
-			var url = parseUrl(event.originalEvent.dataTransfer.getData('Text'));
+			const url = parseUrl(event.originalEvent.dataTransfer.getData('Text'));
 			event.stopPropagation();
 			image.src = url.href;
 			handleUrl(url, div, image);
@@ -541,7 +539,7 @@ function handleUrl(url, div, image) {
 	 */
 
 	// Find out which site the URL is from
-	var tokens = /^https:\/\/chan\.sankakucomplex\.com\/post\/show\/(\d+)$/.exec(url.href);
+	let tokens = /^https:\/\/chan\.sankakucomplex\.com\/post\/show\/(\d+)$/.exec(url.href);
 	if (tokens) {
 
 		// Remove old content in div
@@ -567,7 +565,7 @@ function handleUrl(url, div, image) {
 	} else {
 		tokens = /^https:\/\/cs\.sankakucomplex\.com\/.+\.(.+)\?(\d+)$/.exec(url.href);
 		if (tokens) {
-			var post = {
+			const post = {
 				id: tokens[2]
 			};
 			image.type = tokens[1];
@@ -640,7 +638,7 @@ function downloadImageFromUrl(url, div, image, post) {
 	}
 
 	// Create image
-	var img;
+	let img;
 	// If post before loaded aka thumbnail dropped, it could be a video
 	if (post.details) {
 		switch (post.type) {
@@ -693,7 +691,7 @@ function downloadImageFromUrl(url, div, image, post) {
 
 		// Add details: domain, filename and size, if information has not been read before
 		if (!post.details) {
-			var arguments = (url.search !== '') ? 'Arguments: ' + url.search + '<br>' : '';
+			const arguments = (url.search !== '') ? 'Arguments: ' + url.search + '<br>' : '';
 			div.find('.details').html('Domain: ' + url.host + '<br>\
 				' + arguments + '\
 				Filename: ' + url.file + '<br>\
@@ -708,7 +706,7 @@ function downloadImageFromUrl(url, div, image, post) {
 		 */
 		if (img.tagName === 'IMG') {
 			// Clone image in case of CORS error happens
-			var img_clone = img.cloneNode();
+			const img_clone = img.cloneNode();
 
 			// Read dataURL
 			getDataUrl(img, image.width, image.height, function (dataUrl) { // onComplete
@@ -741,7 +739,7 @@ function downloadImageFromUrl(url, div, image, post) {
 
 			// Read EXIF data and append to div if given
 			EXIF.getData(img, function () {
-				var text = EXIF.pretty(this).split('\n').join('<br>');
+				const text = EXIF.pretty(this).split('\n').join('<br>');
 				div.find('.exif').remove();
 				if (text !== '') {
 					div.append(jQuery('<div class="exif">' + text + '</div>'));
@@ -770,7 +768,7 @@ function handleFile(div, image) {
 	image3.j = null;
 
 	// Append details
-	var details = document.createElement('div');
+	let details = document.createElement('div');
 	details.setAttribute('class', 'details');
 	details.innerHTML = image.file.name + '<br>\
 		Filesize: ' + image.file.size + ' Bytes<br>\
@@ -782,7 +780,7 @@ function handleFile(div, image) {
 
 	// Append EXIF
 	EXIF.getData(image.file, function () {
-		var text = EXIF.pretty(this).split('\n').join('<br>'); ;
+		const text = EXIF.pretty(this).split('\n').join('<br>'); ;
 		if (text !== '') {
 			div.append(jQuery('<div class="exif">' + text + '</div>'));
 			if (!displayExif) {
@@ -817,10 +815,10 @@ function handleFile(div, image) {
 	if (image.dom !== null) {
 		image.j = jQuery(image.dom);
 		image.dom.setAttribute('class', 'main');
-		var fileReader = new FileReader();
+		const fileReader = new FileReader();
 
 		fileReader.onload = function (event) {
-			var alreadyOnload = false;
+			let alreadyOnload = false;
 			if (image.file.type.startsWith('image')) {
 				image.dom.onload = function () {
 					if (!alreadyOnload) {
@@ -842,8 +840,8 @@ function handleFile(div, image) {
 						// Metadata from PNG
 						if(image.file.type === 'image/png'){
 							// Textinformation
-							var metadata = readPNGMetadataFromDataUrl(image.dom.src);
-							text = object2html(metadata.text);
+							const metadata = readPNGMetadataFromDataUrl(image.dom.src);
+							const text = object2html(metadata.text);
 							if(text !== ''){
 								div.append(jQuery('<div class="exif">' + text + '</div>'));
 							}
@@ -948,7 +946,7 @@ function displayRight(b) {
 
 // Get resized dataURL and run onComplete(dataURL) when finished for an img element
 function getDataUrl(img, w, h, onComplete, onError) {
-	var MAX_WH = 1200; // Max width/height
+	const MAX_WH = 1200; // Max width/height
 	// If portrait
 	if (h > w) {
 		// Max height
@@ -960,11 +958,11 @@ function getDataUrl(img, w, h, onComplete, onError) {
 		w = MAX_WH;
 	}
 	img.crossOrigin = "anonymous";
-	var context = document.createElement('canvas').getContext('2d');
+	const context = document.createElement('canvas').getContext('2d');
 	context.canvas.width = w;
 	context.canvas.height = h;
 	context.drawImage(img, 0, 0, w, h);
-	var dataURL;
+	let dataURL;
 	try {
 		dataURL = context.canvas.toDataURL();
 		if (onComplete) {
@@ -981,8 +979,8 @@ function getDataUrl(img, w, h, onComplete, onError) {
 
 // Get filesize from source and run onComplete(filesize), when done
 function getFilesize(src, onComplete) {
-	var xhr = new XMLHttpRequest();
-	var filesize;
+	const xhr = new XMLHttpRequest();
+	let filesize;
 	xhr.open('HEAD', src, true);
 	xhr.onreadystatechange = function () {
 		if (xhr.readyState == 4) {
@@ -1009,11 +1007,11 @@ function parseUrl(link) {
 		link = document.location.href;
 	}
 
-	var url = {};
+	const url = {};
 	url.href = link;
 
 	// Split link into link and hash part
-	var n = link.indexOf('#');
+	let n = link.indexOf('#');
 	if (n > -1) {
 		url.hash = link.substr(n + 1);
 		url.hrefNoHash = link.substr(0, n);
@@ -1035,8 +1033,8 @@ function parseUrl(link) {
 
 	// Get all parts of the link
 	// Regexp coarse: ((protocol://host:port)|file://)(path)(name.ext)
-	var regexp = /^((([^\/\.]+):\/\/)?(([^\/\.]+\.)*[^\/\.]+\.[^\/\.:]+(:\d+)?)|(file):\/\/)(\/.+\/|\/)?([^\/]+)?$/;
-	var tokens = regexp.exec(url.hrefNoSearch);
+	const regexp = /^((([^\/\.]+):\/\/)?(([^\/\.]+\.)*[^\/\.]+\.[^\/\.:]+(:\d+)?)|(file):\/\/)(\/.+\/|\/)?([^\/]+)?$/;
+	const tokens = regexp.exec(url.hrefNoSearch);
 	// url.regexp = regexp; // Save to check
 	// url.tokens = tokens;
 	/* Tokens:
@@ -1083,8 +1081,8 @@ function parseUrl(link) {
 	// Parse arguments
 	url.args = {};
 	if (url.search !== '') {
-		var array = url.search.split('&');
-		for (var i = 0; i < array.length; i++) {
+		const array = url.search.split('&');
+		for (let i = 0; i < array.length; i++) {
 			n = array[i].indexOf('=');
 			if (n > -1) {
 				url.args[decodeURIComponent(array[i].substr(0, n))] =
@@ -1100,23 +1098,23 @@ function parseUrl(link) {
 
 function readPNGMetadataFromDataUrl(dataUrl) {
 
-	var metadata = {};
+	const metadata = {};
 	metadata.details = {};
 	metadata.text = {};
 	metadata.details.data_size = 0;
 
 	// Convert dataUrl to a binary array
 	dataUrl = dataUrl.substr('data:image/png;base64,'.length);
-	var binary = atob(dataUrl);
-	var len = binary.length;
+	const binary = atob(dataUrl);
+	const len = binary.length;
 
 	// Chunk header info
-	var n_chunkLength;
-	var s_chunkType;
-	var n_chunkCRC;
+	let n_chunkLength;
+	let s_chunkType;
+	let n_chunkCRC;
 
 	// For all bytes (skip first 8 which are PNG signature)
-	for (var i = 8; i < len; i++) {
+	for (let i = 8; i < len; i++) {
 
 		// Chunk header and trailer
 		n_chunkLength = binaryToInt(i, 4);
@@ -1179,18 +1177,21 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 				break;
 
 			// Handle text information
-			case 'tEXt':
-				array_text = binaryToString(i, n_chunkLength).split('\0');
+			case 'tEXt': {
+				const array_text = binaryToString(i, n_chunkLength).split('\0');
 				metadata.text[array_text[0]] = array_text[1];
 				break;
-			case 'zTXt':
-				array_text = binaryToString(i, n_chunkLength).split('\0');
+			}
+			case 'zTXt': {
+				const array_text = binaryToString(i, n_chunkLength).split('\0');
 				metadata.text[array_text[0]] = 'compressed ' + n_chunkLength + ' byte text';
 				break;
-			case 'iTXt':
-				array_text = binaryToString(i, n_chunkLength).split('\0');
+			}
+			case 'iTXt': {
+				const array_text = binaryToString(i, n_chunkLength).split('\0');
 				metadata.text[array_text[0]] = 'icompressed ' + n_chunkLength + ' byte text';
 				break;
+			}
 
 			// Handle miscellaneous information
 
@@ -1249,16 +1250,16 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 	return metadata;
 
 	function binaryToInt(i, len) {
-		var n_0 = 0;
+		let n_0 = 0;
 		if (i !== undefined) {
 			n_0 = i;
 		}
 		if (len === undefined){
 			len = 4;
 		}
-		var n_e = n_0 + len;
-		var value = 0;
-		for (var i = n_e - 1; i >= n_0; i--) {
+		const n_e = n_0 + len;
+		let value = 0;
+		for (let i = n_e - 1; i >= n_0; i--) {
 			// console.log(i, value, binary.charCodeAt(i), n_e - i -1);
 			value += binary.charCodeAt(i)*Math.pow(256, n_e - i -1);
 		}
@@ -1276,8 +1277,8 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 		}
 		len += i;
 		console.log(i, len);
-		var s_value = '';
-		for(var j = i; j < len; j++){
+		let s_value = '';
+		for(let j = i; j < len; j++){
 			s_value += binary[j];
 			// console.log(j, s_value, binary[j]);
 		}
@@ -1286,8 +1287,8 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 }
 
 function object2html(obj){
-	var s = '';
-	for(var key in obj){
+	let s = '';
+	for(const key in obj){
 		s += key + ': ' + obj[key] + '<br>';
 	}
 	if(s !== ''){

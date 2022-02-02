@@ -60,7 +60,7 @@ let displayPixelated = true;
 	});
 
 	// Play/Pause button listener
-	jQuery('#play').bind('click', function () {
+	jQuery('#play').bind('click', () => {
 		if (play) {
 			play = false;
 			jQuery('video').each(function () {
@@ -75,15 +75,15 @@ let displayPixelated = true;
 	});
 
 	// Zoom button listener
-	image1.zoom = jQuery('#left > .zoom').bind('click', function () {
+	image1.zoom = jQuery('#left > .zoom').bind('click', () => {
 			reset100(1);
 		});
-	image2.zoom = jQuery('#mid > .zoom').bind('click', function () {
+	image2.zoom = jQuery('#mid > .zoom').bind('click', () => {
 			reset100(2);
 		});
 
 	// Stack button listener
-	jQuery('#stack').bind('mousedown', function () {
+	jQuery('#stack').bind('mousedown', () => {
 		if ((image1.dom !== null) && (image2.dom !== null)) {
 			if (image3.dom !== null) {
 				image1.j.parent().css('left', 'calc(100% / 3)');
@@ -94,7 +94,7 @@ let displayPixelated = true;
 			}
 		}
 	})
-	.bind('mouseup', function () {
+	.bind('mouseup', () => {
 		if ((image1.dom !== null) && (image2.dom !== null)) {
 			if (image3.dom !== null) {
 				image2.j.parent().css('left', 'calc(100% / 3)');
@@ -105,7 +105,7 @@ let displayPixelated = true;
 			}
 		}
 	})
-	.bind('mouseleave', function () {
+	.bind('mouseleave', () => {
 		if ((image1.dom !== null) && (image2.dom !== null)) {
 			if (image3.dom !== null) {
 				image2.j.parent().css('left', 'calc(100% / 3)');
@@ -492,19 +492,19 @@ function updateZoomButton() {
 function dragDropDiv(div, image) {
 
 	div
-	.bind('dragover', function () {
+	.bind('dragover', () => {
 		div.addClass('drag-over');
 		return false;
 	})
-	.bind("dragend", function () {
+	.bind("dragend", () => {
 		div.removeClass('drag-over');
 		return false;
 	})
-	.bind("dragleave", function () {
+	.bind("dragleave", () => {
 		div.removeClass('drag-over');
 		return false;
 	})
-	.bind("drop", function (event) {
+	.bind("drop", (event) => {
 		const file = event.originalEvent.dataTransfer.files[0];
 		console.log(event);
 		if (file) {
@@ -544,7 +544,7 @@ function handleUrl(url, div, image) {
 		div.find('.center').remove();
 		div.append(jQuery('<div class="center"></div>'));
 		div.find('.center').html('Loading post from Sankakucomplex...');
-		getSankakuPost(tokens[1], function (post) { // onComplete
+		getSankakuPost(tokens[1], (post) => { // onComplete
 			if (post.status === 'deleted') {
 				div.find('.center').html('Post has been deleted.');
 				return;
@@ -553,7 +553,7 @@ function handleUrl(url, div, image) {
 			image.type = post.type;
 			image.src = getAbsolutePath(post.src);
 			downloadImageFromUrl(url, div, image, post);
-		}, function () { // onError
+		}, () => { // onError
 			div.find('.center').html('Could not load post from Sankakucomplex.<br>\
 				Download the image/video and drop that instead.');
 		});
@@ -704,10 +704,10 @@ function downloadImageFromUrl(url, div, image, post) {
 			const img_clone = img.cloneNode();
 
 			// Read dataURL
-			getDataUrl(img, image.width, image.height, function (dataUrl) { // onComplete
+			getDataUrl(img, image.width, image.height, (dataUrl) => { // onComplete
 				image.dataUrl = dataUrl;
 				compareImages();
-			}, function () { // onError
+			}, () => { // onError
 				// img disappears on CORS error (what?!) => replace with clone
 				image.j.remove();
 				div.append(img_clone);
@@ -720,14 +720,14 @@ function downloadImageFromUrl(url, div, image, post) {
 
 			// Get filesize, if post not read before
 			if (!post.id) {
-				getFilesize(img.src, function (filesize) {
+				getFilesize(img.src, (filesize) => {
 					div.find('.details').html(div.find('.details').html() + '<br>Filesize: ' + filesize + ' Bytes');
 				});
 			}
 
 			// If image is directlink from Sankakucomplex, get post details
 			if (post.id && !post.details) {
-				getSankakuPost(post.id, function (post_new) {
+				getSankakuPost(post.id, (post_new) => {
 					div.find('.details').html(post_new.details);
 				});
 			}
@@ -827,7 +827,7 @@ function handleFile(div, image) {
 						image.zoom.show();
 						reset();
 
-						getDataUrl(image.dom, image.width, image.height, function (dataUrl) {
+						getDataUrl(image.dom, image.width, image.height, (dataUrl) => {
 							image.dataUrl = dataUrl;
 							compareImages();
 						});
@@ -882,7 +882,7 @@ function compareImages() {
 			});
 		}
 
-		resembleConfig = resemble(image1.dataUrl).compareTo(image2.dataUrl).onComplete(function (data) {
+		resembleConfig = resemble(image1.dataUrl).compareTo(image2.dataUrl).onComplete((data) => {
 				// Image 3 Loaded
 				image3.dom = document.querySelector('#right > .main');
 				image3.j = jQuery(image3.dom).attr('src', data.getImageDataUrl());

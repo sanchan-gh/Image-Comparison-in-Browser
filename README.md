@@ -6,7 +6,9 @@ Just drag and drop image or video files to compare. Files need to be smaller tha
 
 # Advanced Use
 
-You can drag and drop images directly from your browser as well. But it is not always possible to read exif and pixel data, because not all domains allow CORS. For example twitter.com allows reading out data from images.
+You can drag and drop images directly from your browser as well, but it is not always possible to read exif and pixel data, because not all domains allow CORS.
+This can be worked around by downloading this tool and using it locally.
+You can do so by clicking "Code", "Download ZIP", extracting it and opening the index.html.
 
 It is also possible to use arguments in the link to directly load a URL after the page is loaded. For example https://sanchan-gh.github.io/Image-Comparison-in-Browser/index.html?sid1=5981914 will load an image with the post id 5981914 from chan.sankakucomplex.com. Following arguments can be used:
 

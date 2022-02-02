@@ -554,8 +554,7 @@ function handleUrl(url, div, image) {
 			image.src = getAbsolutePath(post.src);
 			downloadImageFromUrl(url, div, image, post);
 		}, () => { // onError
-			div.find('.center').html('Could not load post from Sankakucomplex.<br>\
-				Download the image/video and drop that instead.');
+			div.find('.center').html('Could not load post from Sankakucomplex.<br>Download the image/video and drop that instead.');
 		});
 	} else {
 		tokens = /^https:\/\/cs\.sankakucomplex\.com\/.+\.(.+)\?(\d+)$/.exec(url.href);
@@ -686,11 +685,11 @@ function downloadImageFromUrl(url, div, image, post) {
 
 		// Add details: domain, filename and size, if information has not been read before
 		if (!post.details) {
-			const arguments = (url.search !== '') ? 'Arguments: ' + url.search + '<br>' : '';
-			div.find('.details').html('Domain: ' + url.host + '<br>\
-				' + arguments + '\
-				Filename: ' + url.file + '<br>\
-				Dimension: ' + image.width + 'x' + image.height);
+			const arguments = (url.search !== '') ? `Arguments: ${url.search}<br>` : '';
+			div.find('.details').html(`Domain: ${url.host}<br>
+				${arguments}
+				Filename: ${url.file}<br>
+				Dimension: ${image.width}x${image.height}`);
 
 			// Get type from URL
 			image.type = url.ext;
@@ -765,9 +764,9 @@ function handleFile(div, image) {
 	// Append details
 	let details = document.createElement('div');
 	details.setAttribute('class', 'details');
-	details.innerHTML = image.file.name + '<br>\
-		Filesize: ' + image.file.size + ' Bytes<br>\
-		Filetype: ' + image.file.type;
+	details.innerHTML = `${image.file.name}<br>
+		Filesize: ${image.file.size} Bytes<br>
+		Filetype: ${image.file.type}`;
 	div.append(details);
 	if (!displayDetails) {
 		jQuery('.details').hide();
@@ -821,8 +820,7 @@ function handleFile(div, image) {
 						image.width = image.dom.width;
 						image.height = image.dom.height;
 						console.log(image);
-						details.innerHTML = details.innerHTML + '<br>\
-							Dimension: ' + image.width + 'x' + image.height;
+						details.innerHTML += `<br>Dimension: ${image.width}x${image.height}`;
 						div.find('.center').remove();
 						image.zoom.show();
 						reset();
@@ -852,8 +850,7 @@ function handleFile(div, image) {
 				image.dom.addEventListener("loadedmetadata", function (e) {
 					image.width = this.videoWidth;
 					image.height = this.videoHeight;
-					details.innerHTML = details.innerHTML + '<br>\
-						Dimension: ' + image.width + 'x' + image.height;
+					details.innerHTML += `<br>Dimension: ${image.width}x${image.height}`;
 					div.find('.center').remove();
 					image.zoom.show();
 					reset();

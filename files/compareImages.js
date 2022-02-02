@@ -365,10 +365,6 @@ function reset() {
 	if (image2.j !== null) { // If image has been calculated
 		r_2 = image2.height / image2.width;
 	};
-	let r_3;
-	if (image3.j !== null) { // If image has been calculated
-		r_3 = image3.height / image3.width;
-	};
 
 	// If parent is more portrait
 	if (r_p > r_1) {
@@ -438,7 +434,6 @@ function reset100(base) {
 	// Parent width, height and ratio (for all images same), for natural zoom around center
 	const w_p = jQuery('.block').width();
 	const h_p = jQuery('.block').height();
-	const r_p = h_p / w_p;
 
 	// Relative scale
 	let s;

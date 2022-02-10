@@ -880,7 +880,7 @@ function compareImages() {
 			});
 		}
 
-		resembleConfig = resemble(image1.dataUrl).compareTo(image2.dataUrl).onComplete((data) => {
+		resembleConfig = resemble(image1.dataUrl).compareTo(image2.dataUrl).ignoreNothing().onComplete((data) => {
 				// Image 3 Loaded
 				image3.dom = document.querySelector('#right > .main');
 				image3.j = jQuery(image3.dom).attr('src', data.getImageDataUrl());

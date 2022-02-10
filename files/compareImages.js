@@ -482,10 +482,10 @@ function reset100(base) {
 // Zoom button update to current zoom
 function updateZoomButton() {
 	if (image1.j !== null) {
-		image1.zoom.html(Math.round(image1.j.width() / image1.width * 1000) / 10 + ' %');
+		image1.zoom.html(Math.round((image1.j.width() / image1.width) * 1000) / 10 + ' %');
 	}
 	if (image2.j !== null) {
-		image2.zoom.html(Math.round(image2.j.width() / image2.width * 1000) / 10 + ' %');
+		image2.zoom.html(Math.round((image2.j.width() / image2.width) * 1000) / 10 + ' %');
 	}
 }
 
@@ -943,11 +943,11 @@ function getDataUrl(img, w, h, onComplete, onError) {
 	// If portrait
 	if (h > w) {
 		// Max height
-		w = w / h * MAX_WH;
+		w = (w / h) * MAX_WH;
 		h = MAX_WH;
 	} else {
 		// Max width
-		h = h / w * MAX_WH;
+		h = (h / w) * MAX_WH;
 		w = MAX_WH;
 	}
 	img.crossOrigin = 'anonymous';
@@ -976,8 +976,8 @@ function getFilesize(src, onComplete) {
 	let filesize;
 	xhr.open('HEAD', src, true);
 	xhr.onreadystatechange = function() {
-		if (xhr.readyState == 4) {
-			if ((xhr.status == 200) || (xhr.status == 304)) {
+		if (xhr.readyState === 4) {
+			if ((xhr.status === 200) || (xhr.status === 304)) {
 				filesize = xhr.getResponseHeader('Content-Length');
 				// If "Access-Control-Expose-Headers", "Content-Length" is given
 				if (filesize !== null) {
@@ -1026,7 +1026,7 @@ function parseUrl(link) {
 
 	// Get all parts of the link
 	// Regexp coarse: ((protocol://host:port)|file://)(path)(name.ext)
-	const regexp = /^((([^\/\.]+):\/\/)?(([^\/\.]+\.)*[^\/\.]+\.[^\/\.:]+(:\d+)?)|(file):\/\/)(\/.+\/|\/)?([^\/]+)?$/;
+	const regexp = /^((([^\/.]+):\/\/)?(([^\/.]+\.)*[^\/.]+\.[^\/.:]+(:\d+)?)|(file):\/\/)(\/.+\/|\/)?([^\/]+)?$/;
 	const tokens = regexp.exec(url.hrefNoSearch);
 	// url.regexp = regexp; // Save to check
 	// url.tokens = tokens;

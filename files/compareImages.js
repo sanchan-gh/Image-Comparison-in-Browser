@@ -1006,8 +1006,8 @@ function parseUrl(link) {
 	// Split link into link and hash part
 	let n = link.indexOf('#');
 	if (n > -1) {
-		url.hash = link.substr(n + 1);
-		url.hrefNoHash = link.substr(0, n);
+		url.hash = link.slice(n + 1);
+		url.hrefNoHash = link.slice(0, n);
 		link = url.hrefNoHash;
 	} else {
 		url.hash = '';
@@ -1017,8 +1017,8 @@ function parseUrl(link) {
 	// Split link into link and search part
 	n = link.indexOf('?');
 	if (n > -1) {
-		url.search = link.substr(n + 1);
-		url.hrefNoSearch = link.substr(0, n);
+		url.search = link.slice(n + 1);
+		url.hrefNoSearch = link.slice(0, n);
 	} else {
 		url.search = '';
 		url.hrefNoSearch = link;
@@ -1047,13 +1047,13 @@ function parseUrl(link) {
 		if (tokens[1] !== 'file://') {
 			url.protocol = tokens[3];
 			url.hostname = tokens[4];
-			url.port = (tokens[6]) ? tokens[6].substr(1) : undefined;
+			url.port = (tokens[6]) ? tokens[6].slice(1) : undefined;
 			url.host = (url.port) ? url.hostname + ':' + url.port : url.hostname;
 			url.path = tokens[8];
 		} else {
 			url.protocol = 'file';
 			url.hostname = 'localhost';
-			url.path = tokens[8].substr(1);
+			url.path = tokens[8].slice(1);
 		}
 		url.file = tokens[9];
 		url.pathname = (url.file) ? url.path + url.file : url.path;
@@ -1063,8 +1063,8 @@ function parseUrl(link) {
 	if (url.file) {
 		n = url.file.lastIndexOf('.');
 		if (n > -1) {
-			url.name = url.file.substr(0, n);
-			url.ext = url.file.substr(n + 1);
+			url.name = url.file.slice(0, n);
+			url.ext = url.file.slice(n + 1);
 		} else {
 			url.name = url.file;
 			url.ext = '';
@@ -1078,8 +1078,8 @@ function parseUrl(link) {
 		for (let i = 0; i < array.length; i++) {
 			n = array[i].indexOf('=');
 			if (n > -1) {
-				url.args[decodeURIComponent(array[i].substr(0, n))] =
-					decodeURIComponent(array[i].substr(n + 1));
+				url.args[decodeURIComponent(array[i].slice(0, n))] =
+					decodeURIComponent(array[i].slice(n + 1));
 			} else {
 				url.args[decodeURIComponent(array[i])] = undefined;
 			}
@@ -1097,7 +1097,7 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 	metadata.details.data_size = 0;
 
 	// Convert dataUrl to a binary array
-	dataUrl = dataUrl.substr('data:image/png;base64,'.length);
+	dataUrl = dataUrl.slice('data:image/png;base64,'.length);
 	const binary = atob(dataUrl);
 	const len = binary.length;
 
@@ -1285,7 +1285,7 @@ function object2html(obj) {
 		s += key + ': ' + obj[key] + '<br>';
 	}
 	if (s !== '') {
-		s = s.substr(0, s.length - '<br>'.length);
+		s = s.slice(0, -'<br>'.length);
 	}
 	return s;
 }

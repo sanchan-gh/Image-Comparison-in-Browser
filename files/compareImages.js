@@ -319,6 +319,8 @@ let displayPixelated = true;
 
 // Handle arguments
 function handleArguments(args) {
+	console.debug('handleArguments', args);
+
 	let url;
 	if (args.sid1) {
 		url = parseUrl('https://chan.sankakucomplex.com/post/show/' + args.sid1);
@@ -355,9 +357,11 @@ function clone(obj) {
 // Reset image scale and pos
 function reset() {
 	// Parent width, height and ratio (for all images same)
-	const w_p = $('.block').width();
+	const w_p = $('.block').width(); // TODO this is 0 when offscreen
 	const h_p = $('.block').height();
 	const r_p = h_p / w_p;
+
+	console.debug('reset', w_p, h_p);
 
 	// Ratios of the images
 	let r_1;
@@ -508,7 +512,7 @@ function dragDropDiv(div, image) {
 	})
 	.bind('drop', (event) => {
 		const file = event.originalEvent.dataTransfer.files[0];
-		console.log(event);
+		console.debug('drop event', event);
 		if (file) {
 			if (file.size > 100 * 1024 * 1024) {
 				div.find('.center').html('File too big! Drop another one.');
@@ -531,6 +535,8 @@ function dragDropDiv(div, image) {
 
 // Handle dropped URL
 function handleUrl(url, div, image) {
+	console.debug('handleUrl', url, JSON.parse(JSON.stringify(image)));
+
 	/*
 	 * This needs CORS enabled and Referer allowed, or it will not work.
 	 */
@@ -583,11 +589,15 @@ function handleUrl(url, div, image) {
 
 // Download Sankakucomplex post page
 function getSankakuPost(id, onComplete, onError) {
+	console.debug('getSankakuPost', id);
+
 	$.ajax({
 		url: 'https://capi-v2.sankakucomplex.com/posts?lang=en&page=1&limit=1&tags=id_range:' + id,
 		dataType: 'json',
 		success: (data) => {
 			data = data[0]; // data from the 1 returned post
+
+			console.debug('received post data', data);
 
 			const post = { id };
 
@@ -609,6 +619,7 @@ function getSankakuPost(id, onComplete, onError) {
 
 // Download image if a URL has been dropped into the block
 function downloadImageFromUrl(url, div, image, post) {
+	console.debug('downloadImageFromUrl', url, JSON.parse(JSON.stringify(image)), post);
 
 	if (!post) {
 		post = {};
@@ -641,6 +652,7 @@ function downloadImageFromUrl(url, div, image, post) {
 		case 'png':
 		case 'gif':
 		case 'bmp':
+			console.debug('creating new Image');
 			img = new Image();
 			img.crossOrigin = 'anonymous';
 			img.onload = onLoadFunction;
@@ -658,11 +670,13 @@ function downloadImageFromUrl(url, div, image, post) {
 			break;
 		}
 	} else {
+		console.debug('no post details, creating new Image');
 		img = new Image();
 		img.crossOrigin = 'anonymous';
 		img.onload = onLoadFunction;
 	}
 	img.setAttribute('class', 'main');
+	console.debug('img.src =', image.src);
 	img.src = image.src; //+ '?bustcache=' + new Date().getTime();
 
 	// Save dom object and append it
@@ -671,10 +685,13 @@ function downloadImageFromUrl(url, div, image, post) {
 	div.append(img);
 
 	function onLoadFunction() {
+		console.debug('image onLoadFunction');
+
 		// Get image width and height on display
 		if (img.tagName === 'IMG') {
 			image.width = img.naturalWidth;
 			image.height = img.naturalHeight;
+			console.debug('natural size', img.naturalWidth, img.naturalHeight);
 		} else {
 			image.width = this.videoWidth;
 			image.height = this.videoHeight;
@@ -703,9 +720,11 @@ function downloadImageFromUrl(url, div, image, post) {
 		if (img.tagName === 'IMG') {
 			// Read dataURL
 			getDataUrl(img, image.width, image.height, (dataUrl) => { // onComplete
+				console.debug('getDataUrl onComplete');
 				image.dataUrl = dataUrl;
 				compareImages();
 			}, () => { // onError
+				console.debug('getDataUrl onError');
 				div.find('.center').html('Error while trying to read the pixel data.');
 
 				// Deactivate third block
@@ -727,8 +746,11 @@ function downloadImageFromUrl(url, div, image, post) {
 			}
 
 			// Read EXIF data and append to div if given
+			console.debug('EXIF.getData');
 			EXIF.getData(img, function() {
+				console.debug('EXIF.pretty', EXIF.pretty(this));
 				const text = EXIF.pretty(this).split('\n').join('<br>');
+				console.log('Exif text', text);
 				div.find('.exif').remove();
 				if (text !== '') {
 					div.append($('<div class="exif">' + text + '</div>'));
@@ -745,6 +767,7 @@ function downloadImageFromUrl(url, div, image, post) {
 
 // Handle dropped file
 function handleFile(div, image) {
+	console.debug('handleFile', JSON.parse(JSON.stringify(image)));
 
 	// Remove old details and image
 	div.find('.details').remove();
@@ -768,6 +791,7 @@ function handleFile(div, image) {
 	}
 
 	// Append EXIF
+	console.debug('EXIF.getData');
 	EXIF.getData(image.file, function() {
 		const text = EXIF.pretty(this).split('\n').join('<br>');
 		if (text !== '') {
@@ -784,6 +808,7 @@ function handleFile(div, image) {
 	case 'image/png':
 	case 'image/gif':
 	case 'image/bmp':
+		console.debug('creating new Image');
 		image.dom = new Image();
 		image.dom.crossOrigin = 'anonymous';
 		break;
@@ -808,6 +833,8 @@ function handleFile(div, image) {
 		const fileReader = new FileReader();
 
 		fileReader.onload = function(event) {
+			console.debug('fileReader onload');
+
 			let alreadyOnload = false;
 			if (image.file.type.startsWith('image')) {
 				image.dom.onload = function() {
@@ -815,7 +842,9 @@ function handleFile(div, image) {
 						alreadyOnload = true;
 						image.width = image.dom.width;
 						image.height = image.dom.height;
-						console.log(image);
+
+						console.debug('alreadyOnload', JSON.parse(JSON.stringify(image)));
+
 						details.innerHTML += `<br>Dimension: ${image.width}x${image.height}`;
 						div.find('.center').remove();
 						image.zoom.show();
@@ -857,6 +886,7 @@ function handleFile(div, image) {
 			image.dom.src = event.target.result;
 		};
 
+		console.debug('readAsDataURL');
 		fileReader.readAsDataURL(image.file);
 	} else {
 		div.find('.center').html('Not a supported image or video file!');
@@ -865,6 +895,7 @@ function handleFile(div, image) {
 
 // Compare images with resemble.js
 function compareImages() {
+	console.trace('compareImages');
 	if ((image1.dataUrl !== null) && (image2.dataUrl !== null)) {
 
 		// Compare images with resemble
@@ -934,6 +965,8 @@ function displayRight(b) {
 
 // Get resized dataURL and run onComplete(dataURL) when finished for an img element
 function getDataUrl(img, w, h, onComplete, onError) {
+	console.debug('getDataUrl', img, w, h);
+
 	const MAX_WH = 1200; // Max width/height
 	// If portrait
 	if (h > w) {
@@ -952,6 +985,7 @@ function getDataUrl(img, w, h, onComplete, onError) {
 	context.drawImage(img, 0, 0, w, h);
 	let dataURL;
 	try {
+		console.debug('toDataURL');
 		dataURL = context.canvas.toDataURL();
 		if (onComplete) {
 			onComplete(dataURL);
@@ -967,6 +1001,8 @@ function getDataUrl(img, w, h, onComplete, onError) {
 
 // Get filesize from source and run onComplete(filesize), when done
 function getFilesize(src, onComplete) {
+	console.debug('getFilesize', src);
+
 	const xhr = new XMLHttpRequest();
 	let filesize;
 	xhr.open('HEAD', src, true);

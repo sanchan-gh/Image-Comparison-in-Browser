@@ -23,68 +23,68 @@ let displayPixelated = true;
 
 (function main() {
 	// Bind drag and drop
-	dragDropDiv(jQuery('#left'), image1);
-	dragDropDiv(jQuery('#mid'), image2);
+	dragDropDiv($('#left'), image1);
+	dragDropDiv($('#mid'), image2);
 
 	// Details and Exif button listener
-	displayDetails = jQuery('#displayDetails').is(':checked');
-	jQuery('#displayDetails').parent().bind('click', function() {
+	displayDetails = $('#displayDetails').is(':checked');
+	$('#displayDetails').parent().bind('click', function() {
 		displayDetails = this.childNodes[0].checked;
 		if (displayDetails) {
-			jQuery('.details').show();
+			$('.details').show();
 		} else {
-			jQuery('.details').hide();
+			$('.details').hide();
 		}
 	});
-	displayExif = jQuery('#displayExif').is(':checked');
-	jQuery('#displayExif').parent().bind('click', function() {
+	displayExif = $('#displayExif').is(':checked');
+	$('#displayExif').parent().bind('click', function() {
 		displayExif = this.childNodes[0].checked;
 		if (displayExif) {
-			jQuery('.exif').show();
+			$('.exif').show();
 		} else {
-			jQuery('.exif').hide();
+			$('.exif').hide();
 		}
 	});
-	displayPixelated = jQuery('#pixelated').is(':checked');
+	displayPixelated = $('#pixelated').is(':checked');
 	const pixelatedStyle = 'image-rendering:crisp-edges; image-rendering:-moz-crisp-edges; image-rendering:pixelated; image-rendering: -o-crisp-edges; -ms-interpolation-mode: nearest-neighbor';
 	if (displayPixelated) {
-		jQuery('#content').attr('style', pixelatedStyle);
+		$('#content').attr('style', pixelatedStyle);
 	}
-	jQuery('#content').css({'image-rendering': 'crisp-edges'});
-	jQuery('#pixelated').parent().bind('click', function() {
+	$('#content').css({'image-rendering': 'crisp-edges'});
+	$('#pixelated').parent().bind('click', function() {
 		displayPixelated = this.childNodes[0].checked;
 		if (displayPixelated) {
-			jQuery('#content').attr('style', pixelatedStyle);
+			$('#content').attr('style', pixelatedStyle);
 		} else {
-			jQuery('#content').attr('style', '');
+			$('#content').attr('style', '');
 		}
 	});
 
 	// Play/Pause button listener
-	jQuery('#play').bind('click', () => {
+	$('#play').bind('click', () => {
 		if (play) {
 			play = false;
-			jQuery('video').each(function() {
+			$('video').each(function() {
 				this.pause();
 			});
 		} else {
 			play = true;
-			jQuery('video').each(function() {
+			$('video').each(function() {
 				this.play();
 			});
 		}
 	});
 
 	// Zoom button listener
-	image1.zoom = jQuery('#left > .zoom').bind('click', () => {
+	image1.zoom = $('#left > .zoom').bind('click', () => {
 			reset100(1);
 		});
-	image2.zoom = jQuery('#mid > .zoom').bind('click', () => {
+	image2.zoom = $('#mid > .zoom').bind('click', () => {
 			reset100(2);
 		});
 
 	// Stack button listener
-	jQuery('#stack').bind('mousedown', () => {
+	$('#stack').bind('mousedown', () => {
 		if ((image1.dom !== null) && (image2.dom !== null)) {
 			if (image3.dom !== null) {
 				image1.j.parent().css('left', 'calc(100% / 3)');
@@ -119,7 +119,7 @@ let displayPixelated = true;
 	});
 
 	// Listener for resemble
-	jQuery('input[name="resemble-method"], input[name="resemble-color"]')
+	$('input[name="resemble-method"], input[name="resemble-color"]')
 	.each(function(i) {
 		// Reset to "nothing" and "flat"
 		if ((i === 0) || (i === 3)) {
@@ -168,7 +168,7 @@ let displayPixelated = true;
 	});
 
 	// Add mouselistener for zoom and pan
-	jQuery('#left')
+	$('#left')
 	.bind('mousewheel', zoom)
 	.bind('dblclick', reset)
 	.parent()
@@ -176,10 +176,10 @@ let displayPixelated = true;
 	.bind('mousedown', panstart)
 	.bind('mouseup', panstop)
 	.bind('mouseleave', panstop);
-	jQuery('#mid')
+	$('#mid')
 	.bind('mousewheel', zoom)
 	.bind('dblclick', reset);
-	jQuery('#right')
+	$('#right')
 	.bind('mousewheel', zoom)
 	.bind('dblclick', reset);
 
@@ -259,7 +259,7 @@ let displayPixelated = true;
 	}
 
 	// Center element on resize
-	jQuery(window).bind('resize', onresize);
+	$(window).bind('resize', onresize);
 	let old_width = getWidth();
 	let old_height = getHeight();
 	function onresize(event) {
@@ -324,7 +324,7 @@ function handleArguments(args) {
 		url = parseUrl(args.url1);
 	}
 	if (url) {
-		handleUrl(url, jQuery('#left'), image1);
+		handleUrl(url, $('#left'), image1);
 	}
 
 	url = undefined;
@@ -334,7 +334,7 @@ function handleArguments(args) {
 		url = parseUrl(args.url2);
 	}
 	if (url) {
-		handleUrl(url, jQuery('#mid'), image2);
+		handleUrl(url, $('#mid'), image2);
 	}
 }
 
@@ -353,8 +353,8 @@ function clone(obj) {
 // Reset image scale and pos
 function reset() {
 	// Parent width, height and ratio (for all images same)
-	const w_p = jQuery('.block').width();
-	const h_p = jQuery('.block').height();
+	const w_p = $('.block').width();
+	const h_p = $('.block').height();
 	const r_p = h_p / w_p;
 
 	// Ratios of the images
@@ -433,8 +433,8 @@ function reset3() {
 // Reset image to 100% zoom (Same as zoom-function but relative scale is from image instead of mousewheel)
 function reset100(base) {
 	// Parent width, height and ratio (for all images same), for natural zoom around center
-	const w_p = jQuery('.block').width();
-	const h_p = jQuery('.block').height();
+	const w_p = $('.block').width();
+	const h_p = $('.block').height();
 
 	// Relative scale
 	let s;
@@ -543,7 +543,7 @@ function handleUrl(url, div, image) {
 		div.find('.main').remove();
 		div.find('.exif').remove();
 		div.find('.center').remove();
-		div.append(jQuery('<div class="center"></div>'));
+		div.append($('<div class="center"></div>'));
 		div.find('.center').html('Loading post from Sankakucomplex...');
 		getSankakuPost(tokens[1], (post) => { // onComplete
 			if (post.status === 'deleted') {
@@ -582,7 +582,7 @@ function handleUrl(url, div, image) {
 
 // Download Sankakucomplex post page
 function getSankakuPost(id, onComplete, onError) {
-	jQuery.ajax({
+	$.ajax({
 		url: 'https://capi-v2.sankakucomplex.com/posts?lang=en&page=1&limit=1&tags=id_range:' + id,
 		dataType: 'json',
 		success: (data) => {
@@ -620,7 +620,7 @@ function downloadImageFromUrl(url, div, image, post) {
 	div.find('.main').remove();
 	div.find('.exif').remove();
 	div.find('.center').remove();
-	div.append(jQuery('<div class="center">Reading data from URL...</div>'));
+	div.append($('<div class="center">Reading data from URL...</div>'));
 	div.append('<div class="exif"></div>');
 	div.append('<div class="details"><div>');
 	image.dataUrl = null;
@@ -654,7 +654,7 @@ function downloadImageFromUrl(url, div, image, post) {
 			img.muted = true;
 
 			// Activate play/pause button
-			jQuery('#play').show();
+			$('#play').show();
 			break;
 		}
 	} else {
@@ -666,7 +666,7 @@ function downloadImageFromUrl(url, div, image, post) {
 
 	// Save dom object and append it
 	image.dom = img;
-	image.j = jQuery(img);
+	image.j = $(img);
 	div.append(img);
 
 	function onLoadFunction() {
@@ -712,7 +712,7 @@ function downloadImageFromUrl(url, div, image, post) {
 				image.j.remove();
 				div.append(img_clone);
 				image.dom = img_clone;
-				image.j = jQuery(image.dom);
+				image.j = $(image.dom);
 
 				// Deactivate third block
 				displayRight(false);
@@ -737,7 +737,7 @@ function downloadImageFromUrl(url, div, image, post) {
 				const text = EXIF.pretty(this).split('\n').join('<br>');
 				div.find('.exif').remove();
 				if (text !== '') {
-					div.append(jQuery('<div class="exif">' + text + '</div>'));
+					div.append($('<div class="exif">' + text + '</div>'));
 				} else {
 					div.find('.exif').remove();
 				}
@@ -757,7 +757,7 @@ function handleFile(div, image) {
 	div.find('.main').remove();
 	div.find('.exif').remove();
 	div.find('.center').remove();
-	div.append(jQuery('<div class="center">Reading data...</div>'));
+	div.append($('<div class="center">Reading data...</div>'));
 	image.dataUrl = null;
 	image3.dom = null;
 	image3.j = null;
@@ -770,16 +770,16 @@ function handleFile(div, image) {
 		Filetype: ${image.file.type}`;
 	div.append(details);
 	if (!displayDetails) {
-		jQuery('.details').hide();
+		$('.details').hide();
 	}
 
 	// Append EXIF
 	EXIF.getData(image.file, function() {
 		const text = EXIF.pretty(this).split('\n').join('<br>');
 		if (text !== '') {
-			div.append(jQuery('<div class="exif">' + text + '</div>'));
+			div.append($('<div class="exif">' + text + '</div>'));
 			if (!displayExif) {
-				jQuery('.exif').hide();
+				$('.exif').hide();
 			}
 		}
 	});
@@ -801,14 +801,14 @@ function handleFile(div, image) {
 		image.dom.muted = true;
 
 		// Activate play/pause button
-		jQuery('#play').show();
+		$('#play').show();
 
 		break;
 	}
 
 	// Append file and compare on load
 	if (image.dom !== null) {
-		image.j = jQuery(image.dom);
+		image.j = $(image.dom);
 		image.dom.setAttribute('class', 'main');
 		const fileReader = new FileReader();
 
@@ -837,12 +837,12 @@ function handleFile(div, image) {
 							const metadata = readPNGMetadataFromDataUrl(image.dom.src);
 							const text = object2html(metadata.text);
 							if (text !== '') {
-								div.append(jQuery('<div class="exif">' + text + '</div>'));
+								div.append($('<div class="exif">' + text + '</div>'));
 							}
 							// Additional details
 							delete metadata.details.width;
 							delete metadata.details.height;
-							details = jQuery(div).find('.details');
+							details = $(div).find('.details');
 							details.html(details.html() + '<br>' + object2html(metadata.details));
 						}
 					}
@@ -883,11 +883,11 @@ function compareImages() {
 		resembleConfig = resemble(image1.dataUrl).compareTo(image2.dataUrl).ignoreNothing().onComplete((data) => {
 				// Image 3 Loaded
 				image3.dom = document.querySelector('#right > .main');
-				image3.j = jQuery(image3.dom).attr('src', data.getImageDataUrl());
+				image3.j = $(image3.dom).attr('src', data.getImageDataUrl());
 				image3.width = image1.width;
 				image3.height = image1.height;
-				jQuery('#right > .details').html('Mismatch: ' + data.misMatchPercentage + ' %');
-				jQuery('input[name="resemble-method"], input[name="resemble-color"]').each(function() {
+				$('#right > .details').html('Mismatch: ' + data.misMatchPercentage + ' %');
+				$('input[name="resemble-method"], input[name="resemble-color"]').each(function() {
 					this.disabled = false;
 				});
 
@@ -906,31 +906,31 @@ function displayRight(b) {
 	}
 	if (b) {
 		// Activate third panel
-		if (jQuery('#right').is(':visible')) {
+		if ($('#right').is(':visible')) {
 			reset3();
 		} else {
-			jQuery('#left').css({
+			$('#left').css({
 				left: '0',
 				width: 'calc(100%/3 - 3px)',
 			});
-			jQuery('#mid').css({
+			$('#mid').css({
 				left: 'calc(100%/3)',
 				width: 'calc(100%/3 - 3px)',
 			});
-			jQuery('#right').show();
+			$('#right').show();
 			reset();
 		}
 	} else {
 		// Deactivate third panel
-		jQuery('#left').css({
+		$('#left').css({
 			left: '0',
 			width: 'calc(50% - 3px)',
 		});
-		jQuery('#mid').css({
+		$('#mid').css({
 			left: '50%',
 			width: 'calc(50% - 3px)',
 		});
-		jQuery('#right').hide();
+		$('#right').hide();
 		reset();
 		image3.j = null;
 		image3.dom = null;

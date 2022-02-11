@@ -491,7 +491,6 @@ function updateZoomButton() {
 
 // Add drag drop listener for blocks
 function dragDropDiv(div, image) {
-
 	div
 	.bind('dragover', () => {
 		div.addClass('drag-over');
@@ -588,8 +587,6 @@ function getSankakuPost(id, onComplete, onError) {
 		success: (data) => {
 			data = data[0]; // data from the 1 returned post
 
-console.debug(data);
-
 			const post = { id };
 
 			post.src = data.file_url;
@@ -643,6 +640,7 @@ function downloadImageFromUrl(url, div, image, post) {
 		case 'gif':
 		case 'bmp':
 			img = new Image();
+			img.crossOrigin = 'anonymous';
 			img.onload = onLoadFunction;
 			break;
 		case 'mp4':
@@ -659,6 +657,7 @@ function downloadImageFromUrl(url, div, image, post) {
 		}
 	} else {
 		img = new Image();
+		img.crossOrigin = 'anonymous';
 		img.onload = onLoadFunction;
 	}
 	img.setAttribute('class', 'main');
@@ -700,19 +699,12 @@ function downloadImageFromUrl(url, div, image, post) {
 		 * Following functions need CORS enabled, or it will not work.
 		 */
 		if (img.tagName === 'IMG') {
-			// Clone image in case of CORS error happens
-			const img_clone = img.cloneNode();
-
 			// Read dataURL
 			getDataUrl(img, image.width, image.height, (dataUrl) => { // onComplete
 				image.dataUrl = dataUrl;
 				compareImages();
 			}, () => { // onError
-				// img disappears on CORS error (what?!) => replace with clone
-				image.j.remove();
-				div.append(img_clone);
-				image.dom = img_clone;
-				image.j = $(image.dom);
+				div.find('.center').html('Error while trying to read the pixel data.');
 
 				// Deactivate third block
 				displayRight(false);
@@ -791,6 +783,7 @@ function handleFile(div, image) {
 	case 'image/gif':
 	case 'image/bmp':
 		image.dom = new Image();
+		image.dom.crossOrigin = 'anonymous';
 		break;
 
 	case 'video/webm':
@@ -950,7 +943,7 @@ function getDataUrl(img, w, h, onComplete, onError) {
 		h = (h / w) * MAX_WH;
 		w = MAX_WH;
 	}
-	img.crossOrigin = 'anonymous';
+
 	const context = document.createElement('canvas').getContext('2d');
 	context.canvas.width = w;
 	context.canvas.height = h;
@@ -962,7 +955,7 @@ function getDataUrl(img, w, h, onComplete, onError) {
 			onComplete(dataURL);
 		}
 	} catch (err) {
-		console.log(err);
+		console.error('toDataURL failed', err);
 		if (onError) {
 			onError();
 		}

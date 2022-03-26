@@ -7,7 +7,9 @@
 // @include     https://chan.sankakucomplex.com/post/delete/*
 // @include     https://idol.sankakucomplex.com/post/show/*
 // @include     https://idol.sankakucomplex.com/post/delete/*
-// @version     1.2.1
+// @include     https://legacy.sankakucomplex.com/post/show/*
+// @include     https://legacy.sankakucomplex.com/post/delete/*
+// @version     1.2.2
 // @updateURL   https://github.com/sanchan-gh/Image-Comparison-in-Browser/raw/main/Image%20Comparison%20Tool%20for%20Sankaku%20Complex.user.js
 // @grant       GM.openInTab
 // @grant       unsafeWindow

@@ -1214,7 +1214,7 @@ function readPNGMetadataFromDataUrl(dataUrl) {
 					case 0:
 						metadata.text.unit = 'unknown';
 						break;
-					case 0:
+					case 1:
 						metadata.text.unit = 'meter';
 						break;
 				}

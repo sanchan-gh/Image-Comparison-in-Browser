@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 //(function () {
 
+'use strict';
+
 // Global variables
 const image1 = {
 	dom: null, // dom-object
@@ -685,9 +687,9 @@ function downloadImageFromUrl(url, div, image, post) {
 
 		// Add details: domain, filename and size, if information has not been read before
 		if (!post.details) {
-			const arguments = (url.search !== '') ? `Arguments: ${url.search}<br>` : '';
+			const args = (url.search !== '') ? `Arguments: ${url.search}<br>` : '';
 			div.find('.details').html(`Domain: ${url.host}<br>
-				${arguments}
+				${args}
 				Filename: ${url.file}<br>
 				Dimension: ${image.width}x${image.height}`);
 

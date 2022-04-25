@@ -1,50 +1,49 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Image Comparison Tool</title>
-<script type='text/javascript' src="files/jquery-3.6.0.min.js"></script>
-<script type='text/javascript' src="files/jquery.mousewheel.min.js"></script>
-<script type='text/javascript' src="files/resemble.js"></script>
-<script type='text/javascript' src="files/exif.js"></script>
-<link rel="stylesheet" href="files/compareImages.css">
+	<meta charset="utf-8">
+	<title>Image Comparison Tool</title>
+	<script src="files/jquery-3.6.0.min.js"></script>
+	<script src="files/jquery.mousewheel.min.js"></script>
+	<script src="files/resemble.js"></script>
+	<script src="files/exif.js"></script>
+	<script defer src="files/compareImages.js"></script>
+	<link rel="stylesheet" href="files/compareImages.css">
 </head>
 <body>
-
-<div id="header">
-	<span id="title">Image Comparison Tool</span>
-	<label><input id="displayDetails" type="checkbox" checked="">Display details</label>
-	<label><input id="displayExif" type="checkbox" checked="">Display EXIF</label>
-	<label><input id="pixelated" type="checkbox" checked="">Pixelated</label>
-	<button id="stack">Hold to swap</button>
-	<button id="play">Play/Pause</button>
-	<a id="github" href="https://github.com/sanchan-gh/Image-Comparison-in-Browser">View on Github</a>
-</div>
-
-<div id="content">
-	<div id="left" class="block">
-		<div class="center">Drag and drop image or video here!</div>
-		<button class="zoom">100 %</button>
+	<div id="header">
+		<span id="title">Image Comparison Tool</span>
+		<label><input id="displayDetails" type="checkbox" checked="">Display details</label>
+		<label><input id="displayExif" type="checkbox" checked="">Display Exif</label>
+		<label><input id="pixelated" type="checkbox" checked="">Pixelated</label>
+		<button id="stack">Hold to swap</button>
+		<button id="play">Play/Pause</button>
+		<a id="github" href="https://github.com/sanchan-gh/Image-Comparison-in-Browser">View on Github</a>
 	</div>
-	<div id="mid" class="block">
-		<div class="center">Drag and drop image or video here!</div>
-		<button class="zoom">100 %</button>
-	</div>
-	<div id="right" class="block">
-		<div class="center"></div>
-		<img class="main"></img>
-		<div class="details"></div>
-		<div id="resemble">
-			Ignore: <label><input type="radio" checked="" name="resemble-method">Nothing</label>
-			<label><input type="radio" name="resemble-method">Less</label>
-			<label><input type="radio" name="resemble-method">Colors</label><br>
-			Color: <label><input type="radio" checked="" name="resemble-color">Flat</label>
-			<label><input type="radio" name="resemble-color">Move</label>
-			<label><input type="radio" name="resemble-color">Flat diff</label>
-			<label><input type="radio" name="resemble-color">Move diff</label>
+
+	<div id="content">
+		<div id="left" class="block">
+			<div class="center">Drag and drop image or video here!</div>
+			<button class="zoom">100 %</button>
+		</div>
+		<div id="mid" class="block">
+			<div class="center">Drag and drop image or video here!</div>
+			<button class="zoom">100 %</button>
+		</div>
+		<div id="right" class="block">
+			<div class="center"></div>
+			<img class="main">
+			<div class="details"></div>
+			<div id="resemble">
+				Ignore: <label><input type="radio" checked="" name="resemble-method">Nothing</label>
+				<label><input type="radio" name="resemble-method">Less</label>
+				<label><input type="radio" name="resemble-method">Colors</label><br>
+				Color: <label><input type="radio" checked="" name="resemble-color">Flat</label>
+				<label><input type="radio" name="resemble-color">Move</label>
+				<label><input type="radio" name="resemble-color">Flat diff</label>
+				<label><input type="radio" name="resemble-color">Move diff</label>
+			</div>
 		</div>
 	</div>
-</div>
-
-<script type='text/javascript' src="files/compareImages.js"></script>
 </body>
 </html>

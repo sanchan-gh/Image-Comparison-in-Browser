@@ -9,7 +9,8 @@
 // @include     https://idol.sankakucomplex.com/post/delete/*
 // @include     https://legacy.sankakucomplex.com/post/show/*
 // @include     https://legacy.sankakucomplex.com/post/delete/*
-// @version     1.2.2
+// @version     1.2.3
+// @downloadURL https://github.com/sanchan-gh/Image-Comparison-in-Browser/raw/main/Image%20Comparison%20Tool%20for%20Sankaku%20Complex.user.js
 // @updateURL   https://github.com/sanchan-gh/Image-Comparison-in-Browser/raw/main/Image%20Comparison%20Tool%20for%20Sankaku%20Complex.user.js
 // @grant       GM.openInTab
 // @grant       unsafeWindow
@@ -41,6 +42,7 @@
 
   async function fetchImageUrl(postId) {
     const response = await fetch(new URL(`/post/show/${postId}`, document.location));
+    if (!response.ok) throw Error('non-OK status code');
     const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
     return getImageUrl(doc);
   }
@@ -104,7 +106,7 @@
         const imgUrls = await fetchImageUrls(postId, parentId);
         url = getIctUrl(...imgUrls);
       } catch (error) {
-        showNotice(console.error, 'Couldn\'t fetch image urls', error);
+        showNotice(console.error, 'Couldn\'t fetch image urls, ' + error.message, error);
         return;
       }
     } else {
@@ -124,8 +126,23 @@
     content.insertAdjacentElement('beforeend', iframe);
   }
 
+  function findActionsList() {
+    let actionsList;
+
+    for (const a of document.querySelectorAll('.sidebar > div > ul:not(#tag-sidebar) > li > a')) {
+      try {
+        const pathname = new URL(a.href).pathname;
+        if (pathname.startsWith('/post/similar')) {
+          actionsList = a.parentElement.parentElement;
+        }
+      } catch (ignored) {}
+    }
+
+    return actionsList;
+  }
+
   async function addCompareButtonToPostPage() {
-    const actionsList = document.querySelector('#stats + div > ul');
+    const actionsList = findActionsList();
     if (!actionsList) return;
 
     const parent = document.querySelector('#parent-preview > .thumb');

@@ -3,13 +3,13 @@
 // @namespace   https://github.com/sanchan-gh/
 // @description Easily compare a post with its parent
 // @author      sanchan, BicHD
-// @include     https://chan.sankakucomplex.com/post/show/*
-// @include     https://chan.sankakucomplex.com/post/delete/*
-// @include     https://idol.sankakucomplex.com/post/show/*
-// @include     https://idol.sankakucomplex.com/post/delete/*
-// @include     https://legacy.sankakucomplex.com/post/show/*
-// @include     https://legacy.sankakucomplex.com/post/delete/*
-// @version     1.2.3
+// @match       *://chan.sankakucomplex.com/post*/show/*
+// @match       *://idol.sankakucomplex.com/post*/show/*
+// @match       *://legacy.sankakucomplex.com/post*/show/*
+// @match       *://chan.sankakucomplex.com/post*/delete/*
+// @match       *://idol.sankakucomplex.com/post*/delete/*
+// @match       *://legacy.sankakucomplex.com/post*/delete/*
+// @version     1.2.4
 // @downloadURL https://github.com/sanchan-gh/Image-Comparison-in-Browser/raw/main/Image%20Comparison%20Tool%20for%20Sankaku%20Complex.user.js
 // @updateURL   https://github.com/sanchan-gh/Image-Comparison-in-Browser/raw/main/Image%20Comparison%20Tool%20for%20Sankaku%20Complex.user.js
 // @grant       GM.openInTab
@@ -41,7 +41,7 @@
   }
 
   async function fetchImageUrl(postId) {
-    const response = await fetch(new URL(`/post/show/${postId}`, document.location));
+    const response = await fetch(new URL(`/posts/show/${postId}`, document.location));
     if (!response.ok) throw Error('non-OK status code');
     const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
     return getImageUrl(doc);
@@ -91,7 +91,9 @@
   }
 
   async function addIctToDeletionPage() {
-    const postIds = [...document.querySelectorAll('#content > .deleting-post .thumb')]
+    if (!window.location.pathname.include('/delete')) return;
+
+    const postIds = [...document.querySelectorAll('#content .thumb')]
       .map(thumb => thumb.id.substring(1));
 
     // either 2 or 0 thumbnails
@@ -132,7 +134,7 @@
     for (const a of document.querySelectorAll('.sidebar > div > ul:not(#tag-sidebar) > li > a')) {
       try {
         const pathname = new URL(a.href).pathname;
-        if (pathname.startsWith('/post/similar')) {
+        if (pathname.startsWith('/posts/similar')) {
           actionsList = a.parentElement.parentElement;
         }
       } catch (ignored) {}

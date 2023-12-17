@@ -3,13 +3,10 @@
 // @namespace   https://github.com/sanchan-gh/
 // @description Easily compare a post with its parent
 // @author      sanchan, BicHD
-// @match       *://chan.sankakucomplex.com/post*/show/*
-// @match       *://idol.sankakucomplex.com/post*/show/*
-// @match       *://legacy.sankakucomplex.com/post*/show/*
-// @match       *://chan.sankakucomplex.com/post*/delete/*
-// @match       *://idol.sankakucomplex.com/post*/delete/*
-// @match       *://legacy.sankakucomplex.com/post*/delete/*
-// @version     1.2.4
+// @match       *://chan.sankakucomplex.com/*
+// @match       *://idol.sankakucomplex.com/*
+// @match       *://legacy.sankakucomplex.com/*
+// @version     1.2.5
 // @downloadURL https://github.com/sanchan-gh/Image-Comparison-in-Browser/raw/main/Image%20Comparison%20Tool%20for%20Sankaku%20Complex.user.js
 // @updateURL   https://github.com/sanchan-gh/Image-Comparison-in-Browser/raw/main/Image%20Comparison%20Tool%20for%20Sankaku%20Complex.user.js
 // @grant       GM.openInTab
@@ -41,7 +38,7 @@
   }
 
   async function fetchImageUrl(postId) {
-    const response = await fetch(new URL(`/posts/show/${postId}`, document.location));
+    const response = await fetch(new URL(`/posts/${postId}`, document.location));
     if (!response.ok) throw Error('non-OK status code');
     const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
     return getImageUrl(doc);
@@ -189,8 +186,18 @@
   }
 
   async function main() {
-    await addCompareButtonToPostPage();
-    await addIctToDeletionPage();
+    let pathname = window.location.pathname;
+
+    // strip language code
+    if (pathname.indexOf('/', 1) === 3)
+      pathname = pathname.substring(3);
+
+    if (pathname.match(/^\/posts\/[^/]+\/?$/)) {
+      await addCompareButtonToPostPage();
+    }
+    else if (pathname.match(/^\/posts\/[^/]+\/delete\/?$/)) {
+      await addIctToDeletionPage();
+    }
   }
 
   main().catch(error => showNotice(console.error, 'Image Comparison Tool script failed', error));

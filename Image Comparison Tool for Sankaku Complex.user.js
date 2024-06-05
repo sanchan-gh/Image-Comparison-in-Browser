@@ -6,7 +6,7 @@
 // @match       *://chan.sankakucomplex.com/*
 // @match       *://idol.sankakucomplex.com/*
 // @match       *://legacy.sankakucomplex.com/*
-// @version     1.2.5
+// @version     1.2.6
 // @downloadURL https://github.com/sanchan-gh/Image-Comparison-in-Browser/raw/main/Image%20Comparison%20Tool%20for%20Sankaku%20Complex.user.js
 // @updateURL   https://github.com/sanchan-gh/Image-Comparison-in-Browser/raw/main/Image%20Comparison%20Tool%20for%20Sankaku%20Complex.user.js
 // @grant       GM.openInTab
@@ -90,7 +90,7 @@
   async function addIctToDeletionPage() {
     if (!window.location.pathname.include('/delete')) return;
 
-    const postIds = [...document.querySelectorAll('#content .thumb')]
+    const postIds = [...document.querySelectorAll('#content .post-preview')]
       .map(thumb => thumb.id.substring(1));
 
     // either 2 or 0 thumbnails
